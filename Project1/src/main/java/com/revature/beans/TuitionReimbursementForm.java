@@ -12,6 +12,7 @@ public class TuitionReimbursementForm {
 	// description will include work time missed
 	private Integer cost;
 	private GradeType gradeType;
+	private ReimbursementEventType eventType;
 	private List<Attachment> attachments;
 	
 	public TuitionReimbursementForm() {
@@ -20,6 +21,7 @@ public class TuitionReimbursementForm {
 		this.description = "Nothing";
 		this.cost = 0;
 		this.gradeType = GradeType.LETTER;
+		this.eventType = ReimbursementEventType.CERT;
 	}
 	
 	public TuitionReimbursementForm(
@@ -28,6 +30,7 @@ public class TuitionReimbursementForm {
 			String description,
 			Integer cost,
 			GradeType gradeType,
+			ReimbursementEventType eventType,
 			List<Attachment> attachments) {
 		
 		this.issuer = issuer;
@@ -35,6 +38,7 @@ public class TuitionReimbursementForm {
 		this.description = description;
 		this.cost = cost;
 		this.gradeType = gradeType;
+		this.eventType = eventType;
 		this.attachments = attachments;
 	}
 	
@@ -68,6 +72,13 @@ public class TuitionReimbursementForm {
 	public void setGradeType(GradeType gradeType) {
 		this.gradeType = gradeType;
 	}
+	public ReimbursementEventType getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(ReimbursementEventType eventType) {
+		this.eventType = eventType;
+	}
 	public List<Attachment> getAttachments() {
 		return attachments;
 	}
@@ -76,7 +87,7 @@ public class TuitionReimbursementForm {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(attachments, cost, dateTime, description, gradeType, issuer);
+		return Objects.hash(attachments, cost, dateTime, description, eventType, gradeType, issuer);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -89,11 +100,12 @@ public class TuitionReimbursementForm {
 		TuitionReimbursementForm other = (TuitionReimbursementForm) obj;
 		return Objects.equals(attachments, other.attachments) && Objects.equals(cost, other.cost)
 				&& Objects.equals(dateTime, other.dateTime) && Objects.equals(description, other.description)
-				&& gradeType == other.gradeType && Objects.equals(issuer, other.issuer);
+				&& eventType == other.eventType && gradeType == other.gradeType && Objects.equals(issuer, other.issuer);
 	}
 	@Override
 	public String toString() {
 		return "TuitionReimbursementForm [issuer=" + issuer + ", dateTime=" + dateTime + ", description=" + description
-				+ ", cost=" + cost + ", gradeType=" + gradeType + ", attachments=" + attachments + "]";
+				+ ", cost=" + cost + ", gradeType=" + gradeType + ", eventType=" + eventType + ", attachments="
+				+ attachments + "]";
 	}
 }
