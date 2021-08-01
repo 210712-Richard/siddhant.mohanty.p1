@@ -8,8 +8,7 @@ public class TuitionReimbursementForm {
 
 	private String issuer;
 	private LocalDateTime dateTime;
-	private String description;
-	// description will include work time missed
+	private String description;	// description will include work time missed
 	private Integer cost;
 	private GradeType gradeType;
 	private ReimbursementEventType eventType;

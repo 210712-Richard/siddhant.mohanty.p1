@@ -6,12 +6,14 @@ import java.util.Objects;
 
 public class Employee {
 	
-	private String name;
+	private String username;
+	private String firstName;
+	private String lastName;
 	private String password;
 	private Integer id;
 	private Integer reimbursement = 1000;
-	private Boolean approved;
 	private EmployeeType type;
+	private List<TuitionReimbursementForm> forms = new ArrayList<TuitionReimbursementForm>();
 	private List<String> notifications = new ArrayList<String>();
 
 	public Employee() {
@@ -20,20 +22,38 @@ public class Employee {
 		this.notifications.add("Welcome!");
 	}
 	
-	public Employee(String name, String password, Integer id, EmployeeType type) {
+	public Employee(String firstName, String lastName, String username, String password, Integer id, EmployeeType type) {
 		this();
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
 		this.password = password;
 		this.id = id;
 		this.type = type;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getPassword() {
@@ -59,15 +79,6 @@ public class Employee {
 	public void setReimbursement(Integer reimbursement) {
 		this.reimbursement = reimbursement;
 	}
-
-	public Boolean getApproved() {
-		return approved;
-	}
-
-	public void setApproved(Boolean approved) {
-		this.approved = approved;
-	}
-
 	public EmployeeType getType() {
 		return type;
 	}
@@ -84,9 +95,17 @@ public class Employee {
 		this.notifications = notifications;
 	}
 
+	public List<TuitionReimbursementForm> getForms() {
+		return forms;
+	}
+
+	public void setForms(List<TuitionReimbursementForm> forms) {
+		this.forms = forms;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(approved, id, name, notifications, password, reimbursement, type);
+		return Objects.hash(firstName, forms, id, lastName, notifications, password, reimbursement, type, username);
 	}
 
 	@Override
@@ -98,16 +117,18 @@ public class Employee {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(approved, other.approved) && Objects.equals(id, other.id)
-				&& Objects.equals(name, other.name) && Objects.equals(notifications, other.notifications)
-				&& Objects.equals(password, other.password) && Objects.equals(reimbursement, other.reimbursement)
-				&& type == other.type;
+		return Objects.equals(firstName, other.firstName) && Objects.equals(forms, other.forms)
+				&& Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
+				&& Objects.equals(notifications, other.notifications) && Objects.equals(password, other.password)
+				&& Objects.equals(reimbursement, other.reimbursement) && type == other.type
+				&& Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "Employee [name=" + name + ", password=" + password + ", id=" + id + ", reimbursement=" + reimbursement
-				+ ", approved=" + approved + ", type=" + type + ", notifications=" + notifications + "]";
+		return "Employee [username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
+				+ password + ", id=" + id + ", reimbursement=" + reimbursement + ", type=" + type + ", forms=" + forms
+				+ ", notifications=" + notifications + "]";
 	}
 	
 }
