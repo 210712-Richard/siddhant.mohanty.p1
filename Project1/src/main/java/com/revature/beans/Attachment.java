@@ -6,12 +6,12 @@ public class Attachment {
 
 	private AttachmentType type;
 	private String body;
-	
+
 	public Attachment() {
 		this.type = AttachmentType.PDF;
 		this.body = "Nothing here";
 	}
-	
+
 	public Attachment(AttachmentType type, String body) {
 		this.type = type;
 		this.body = body;

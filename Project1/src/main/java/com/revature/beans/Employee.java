@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Employee {
-	
+
 	private String username;
 	private String firstName;
 	private String lastName;
@@ -21,8 +21,9 @@ public class Employee {
 		this.type = EmployeeType.REGEMPLOYEE;
 		this.notifications.add("Welcome!");
 	}
-	
-	public Employee(String firstName, String lastName, String username, String password, Integer id, EmployeeType type) {
+
+	public Employee(String firstName, String lastName, String username, String password, Integer id,
+			EmployeeType type) {
 		this();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -79,6 +80,7 @@ public class Employee {
 	public void setReimbursement(Integer reimbursement) {
 		this.reimbursement = reimbursement;
 	}
+
 	public EmployeeType getType() {
 		return type;
 	}
@@ -130,5 +132,5 @@ public class Employee {
 				+ password + ", id=" + id + ", reimbursement=" + reimbursement + ", type=" + type + ", forms=" + forms
 				+ ", notifications=" + notifications + "]";
 	}
-	
+
 }
