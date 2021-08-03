@@ -11,7 +11,7 @@ public interface EmployeeDAO {
 	/**
 	 * Adds an employee to the list of employees in the system
 	 * 
-	 * @param employee
+	 * @param employee The employee being added
 	 */
 
 	void addEmployee(Employee employee);

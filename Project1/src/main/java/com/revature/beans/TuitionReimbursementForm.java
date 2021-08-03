@@ -3,20 +3,22 @@ package com.revature.beans;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class TuitionReimbursementForm {
 
 	private String issuer;
-	private LocalDateTime dateTime;
+	private LocalDateTime creationTime;
 	private String description; // description will include work time missed
 	private Integer cost;
 	private GradeType gradeType;
 	private ReimbursementEventType eventType;
 	private List<Attachment> attachments;
+	private UUID id;
 
 	public TuitionReimbursementForm() {
 		this.issuer = "Nobody";
-		this.dateTime = LocalDateTime.now();
+		this.creationTime = LocalDateTime.now();
 		this.description = "Nothing";
 		this.cost = 0;
 		this.gradeType = GradeType.LETTER;
@@ -27,7 +29,7 @@ public class TuitionReimbursementForm {
 			GradeType gradeType, ReimbursementEventType eventType, List<Attachment> attachments) {
 
 		this.issuer = issuer;
-		this.dateTime = dateTime;
+		this.creationTime = dateTime;
 		this.description = description;
 		this.cost = cost;
 		this.gradeType = gradeType;
@@ -43,12 +45,12 @@ public class TuitionReimbursementForm {
 		this.issuer = issuer;
 	}
 
-	public LocalDateTime getDateTime() {
-		return dateTime;
+	public LocalDateTime getCreationTime() {
+		return creationTime;
 	}
 
-	public void setDateTime(LocalDateTime dateTime) {
-		this.dateTime = dateTime;
+	public void setCreationTime(LocalDateTime dateTime) {
+		this.creationTime = dateTime;
 	}
 
 	public String getDescription() {
@@ -90,10 +92,18 @@ public class TuitionReimbursementForm {
 	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
 	}
+	
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(attachments, cost, dateTime, description, eventType, gradeType, issuer);
+		return Objects.hash(attachments, cost, creationTime, description, eventType, gradeType, id, issuer);
 	}
 
 	@Override
@@ -106,14 +116,15 @@ public class TuitionReimbursementForm {
 			return false;
 		TuitionReimbursementForm other = (TuitionReimbursementForm) obj;
 		return Objects.equals(attachments, other.attachments) && Objects.equals(cost, other.cost)
-				&& Objects.equals(dateTime, other.dateTime) && Objects.equals(description, other.description)
-				&& eventType == other.eventType && gradeType == other.gradeType && Objects.equals(issuer, other.issuer);
+				&& Objects.equals(creationTime, other.creationTime) && Objects.equals(description, other.description)
+				&& eventType == other.eventType && gradeType == other.gradeType && Objects.equals(id, other.id)
+				&& Objects.equals(issuer, other.issuer);
 	}
 
 	@Override
 	public String toString() {
-		return "TuitionReimbursementForm [issuer=" + issuer + ", dateTime=" + dateTime + ", description=" + description
+		return "TuitionReimbursementForm [issuer=" + issuer + ", dateTime=" + creationTime + ", description=" + description
 				+ ", cost=" + cost + ", gradeType=" + gradeType + ", eventType=" + eventType + ", attachments="
-				+ attachments + "]";
+				+ attachments + ", id=" + id + "]";
 	}
 }

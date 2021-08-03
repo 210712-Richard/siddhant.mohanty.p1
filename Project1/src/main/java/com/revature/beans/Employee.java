@@ -22,14 +22,14 @@ public class Employee {
 		this.notifications.add("Welcome!");
 	}
 
-	public Employee(String firstName, String lastName, String username, String password, Integer id,
+	public Employee(String firstName, String lastName, String username, String password,
 			EmployeeType type) {
 		this();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		this.id = id;
+		// this.id = id;
 		this.type = type;
 	}
 
