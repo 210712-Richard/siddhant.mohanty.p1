@@ -20,7 +20,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	
 	@Override
 	public void addEmployee(Employee emp) {
-		String query = "Insert into employee (username, firstName, lastName, type, reimbursement) values (?, ?, ?, ?, ?);";
+		String query = "Insert into employee (username, firstname, lastname, type, reimbursement) values (?, ?, ?, ?, ?);";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM).build();
 		BoundStatement bound = session.prepare(s)
 				.bind(emp.getUsername(), emp.getFirstName(), emp.getLastName(), emp.getType().toString(), emp.getReimbursement());
@@ -29,7 +29,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
 	@Override
 	public List<Employee> getEmployees() {
-		String query = "Select username, firstName, lastName, type, reimbursement from employee";
+		String query = "Select username, firstname, lastname, type, reimbursement from employee";
 		// This query will not be particularly efficient as it needs to query every partition.
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		ResultSet rs = session.execute(s);
@@ -38,8 +38,8 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 			Employee emp = new Employee();
 			emp.setUsername(row.getString("username"));
 			emp.setType(EmployeeType.valueOf(row.getString("type")));
-			emp.setFirstName(row.getString("firstName"));
-			emp.setLastName(row.getString("lastName"));
+			emp.setFirstName(row.getString("firstname"));
+			emp.setLastName(row.getString("lastname"));
 			emp.setReimbursement(row.getInt("reimbursement"));
 			employees.add(emp);
 		});
