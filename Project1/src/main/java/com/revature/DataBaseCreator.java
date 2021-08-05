@@ -24,6 +24,10 @@ public class DataBaseCreator {
 
 		sb = new StringBuilder("DROP TABLE IF EXISTS form;");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
+		
+		sb = new StringBuilder("DROP TABLE IF EXISTS notifications;");
+		CassandraUtil.getInstance().getSession().execute(sb.toString());
+		
 	}
 
 	public static void createTables() {
@@ -32,8 +36,13 @@ public class DataBaseCreator {
 				.append(" reimbursement int, primary key(username, firstname));");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
 
-		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS form (").append("issuer text, description text, cost int,")
+		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS form (")
+				.append("issuer text, description text, cost int,")
 				.append(" gradetype text, eventtype text, attachments list<uuid>, primary key (issuer, description)); ");
+		CassandraUtil.getInstance().getSession().execute(sb.toString());
+		
+		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS notifications (")
+				.append("recipient text, message text, primary key (recipient)); ");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
 	}
 
@@ -48,7 +57,10 @@ public class DataBaseCreator {
 	public static void populateFormTable() {
 		TuitionReimbursementForm form = new TuitionReimbursementForm("boss_man", LocalDateTime.now(), "The first form",
 				100, GradeType.LETTER, ReimbursementEventType.CERT, null);
-
 		td.addTuitionForm(form);
+	}
+	
+	public static void populateNotificationsTable() {
+		ed.addNotification("boss_man", "You did it!");
 	}
 }

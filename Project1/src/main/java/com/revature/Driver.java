@@ -22,12 +22,13 @@ public class Driver {
 		}
 		DataBaseCreator.createTables();
 		try {
-			Thread.sleep(20000); // wait 20 seconds
+			Thread.sleep(30000); // wait 30 seconds
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		DataBaseCreator.populateEmployeeTable();
 		DataBaseCreator.populateFormTable();
+		DataBaseCreator.populateNotificationsTable();
 		System.exit(0);
 	}
 }

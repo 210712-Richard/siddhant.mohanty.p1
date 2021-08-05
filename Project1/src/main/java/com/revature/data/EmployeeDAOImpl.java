@@ -21,8 +21,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public void addEmployee(Employee emp) {
 		String query = "Insert into employee (username, password, type, firstname, lastname, reimbursement) values (?, ?, ?, ?, ?, ?);";
-		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
-				.build();
+		SimpleStatement s = new SimpleStatementBuilder(query)
+				.setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM).build();
 		BoundStatement bound = session.prepare(s)
 				.bind(emp.getUsername(), emp.getPassword(), emp.getType().toString(), emp.getFirstName(), emp.getLastName(), emp.getReimbursement());
 		session.execute(bound);
@@ -76,6 +76,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public List<String> getEmployeeNotifications(String username) {
 		return null;
+	}
+	
+	@Override
+	public void addNotification(String recipient, String message) {
+		String query = "Insert into notifications (recipient, message) values (?, ?);";
+		SimpleStatement s = new SimpleStatementBuilder(query)
+				.setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM).build();
+		BoundStatement bound = session.prepare(s).bind(recipient, message);
+		session.execute(bound);
 	}
 
 }

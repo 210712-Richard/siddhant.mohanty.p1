@@ -67,4 +67,13 @@ public interface EmployeeDAO {
 	 */
 
 	List<String> getEmployeeNotifications(String username);
+
+	/**
+	 * Sends an employee a notification
+	 * 
+	 * @param username The username of the recipient
+	 * @param message The body of the notification itself
+	 */
+	
+	void addNotification(String username, String message);
 }
