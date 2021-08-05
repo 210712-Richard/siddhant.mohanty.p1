@@ -21,37 +21,34 @@ public class DataBaseCreator {
 	public static void dropTables() {
 		StringBuilder sb = new StringBuilder("DROP TABLE IF EXISTS employee;");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
-		
+
 		sb = new StringBuilder("DROP TABLE IF EXISTS form;");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
 	}
-	
+
 	public static void createTables() {
 		StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS employee (")
-				.append("username text PRIMARY KEY, type text, firstname text, ")
-				.append("lastname text, forms list<uuid> );");
+				.append("username text, password text, type text, firstname text, lastname text,")
+				.append(" reimbursement int, primary key(username, firstname));");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
-		
-		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS form (")
-				.append("issuer text, creationtime date, description text, cost int,")
-				.append(" gradetype text, eventtype text, attachments list<uuid>); ");
+
+		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS form (").append("issuer text, description text, cost int,")
+				.append(" gradetype text, eventtype text, attachments list<uuid>, primary key (issuer, description)); ");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
 	}
-	
+
 	public static void populateEmployeeTable() {
-		Employee emp = new Employee("Boss", "Man", "boss_man", "boss_password",
-				EmployeeType.CEO);
-		ed.addEmployee(emp);
+		ed.addEmployee(new Employee("Boss", "Man", "boss_man", "boss_password", EmployeeType.CEO));
 		ed.addEmployee(new Employee("Sidd", "Mohanty", "sidd_mohanty", "sidd_password", EmployeeType.REGEMPLOYEE));
 		ed.addEmployee(new Employee("Ham", "Yam", "ham_yam", "ham_password", EmployeeType.MANAGER));
 		ed.addEmployee(new Employee("Edward", "Trent", "ent", "ed_password", EmployeeType.DEPARTMENT_HEAD));
 		ed.addEmployee(new Employee("Robert", "Pants", "sponge", "bob_password", EmployeeType.BENCO));
 	}
-	
+
 	public static void populateFormTable() {
-		TuitionReimbursementForm form = new TuitionReimbursementForm("boss_man", LocalDateTime.now(), "The first form", 
+		TuitionReimbursementForm form = new TuitionReimbursementForm("boss_man", LocalDateTime.now(), "The first form",
 				100, GradeType.LETTER, ReimbursementEventType.CERT, null);
-		
+
 		td.addTuitionForm(form);
 	}
 }

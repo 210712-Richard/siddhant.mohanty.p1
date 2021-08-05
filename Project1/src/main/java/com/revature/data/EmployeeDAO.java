@@ -51,11 +51,20 @@ public interface EmployeeDAO {
 	void updateEmployee(String username);
 
 	/**
-	 * Gets any tuition reimbursement forms submitted by a particular employee
+	 * Gets all tuition reimbursement forms submitted by a particular employee
 	 * 
 	 * @param username The username of the employee
 	 * @return The forms belonging to that employee
 	 */
 
 	List<TuitionReimbursementForm> getEmployeeForms(String username);
+
+	/**
+	 * Gets all notifications for a particular employee
+	 * 
+	 * @param username the username of the employee
+	 * @return The list of notifications that employee has pending
+	 */
+
+	List<String> getEmployeeNotifications(String username);
 }

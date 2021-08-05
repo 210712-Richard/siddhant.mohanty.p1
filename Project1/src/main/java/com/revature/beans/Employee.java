@@ -3,6 +3,7 @@ package com.revature.beans;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Employee {
 
@@ -11,13 +12,14 @@ public class Employee {
 	private String lastName;
 	private String password;
 	private Integer id;
-	private Integer reimbursement = 1000;
+	private Integer reimbursement;
 	private EmployeeType type;
-	private List<TuitionReimbursementForm> forms = new ArrayList<TuitionReimbursementForm>();
+	private List<UUID> forms = new ArrayList<UUID>();
 	private List<String> notifications = new ArrayList<String>();
 
 	public Employee() {
 		super();
+		this.reimbursement = 1000;
 		this.type = EmployeeType.REGEMPLOYEE;
 		this.notifications.add("Welcome!");
 	}
@@ -97,11 +99,11 @@ public class Employee {
 		this.notifications = notifications;
 	}
 
-	public List<TuitionReimbursementForm> getForms() {
+	public List<UUID> getForms() {
 		return forms;
 	}
 
-	public void setForms(List<TuitionReimbursementForm> forms) {
+	public void setForms(List<UUID> forms) {
 		this.forms = forms;
 	}
 
