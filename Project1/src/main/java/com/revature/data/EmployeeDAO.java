@@ -45,35 +45,8 @@ public interface EmployeeDAO {
 	/**
 	 * Updates an employee within the system
 	 * 
-	 * @param username The username of the employee to be updated
+	 * @param employee The updated version of the employee to be placed into the database
 	 */
 
-	void updateEmployee(String username);
-
-	/**
-	 * Gets all tuition reimbursement forms submitted by a particular employee
-	 * 
-	 * @param username The username of the employee
-	 * @return The forms belonging to that employee
-	 */
-
-	List<TuitionReimbursementForm> getEmployeeForms(String username);
-
-	/**
-	 * Gets all notifications for a particular employee
-	 * 
-	 * @param username the username of the employee
-	 * @return The list of notifications that employee has pending
-	 */
-
-	List<String> getEmployeeNotifications(String username);
-
-	/**
-	 * Sends an employee a notification
-	 * 
-	 * @param username The username of the recipient
-	 * @param message The body of the notification itself
-	 */
-	
-	void addNotification(String username, String message);
+	void updateEmployee(Employee employee);
 }

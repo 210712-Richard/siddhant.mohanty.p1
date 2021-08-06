@@ -25,8 +25,8 @@ public class TuitionDAOImpl implements TuitionDAO {
 		String query = "Insert into form (issuer, description, cost, gradetype, eventtype, attachments) values (?, ?, ?, ?, ?, ?);";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
 				.build();
-		BoundStatement bound = session.prepare(s).bind(form.getIssuer(), form.getDescription(),
-				form.getCost(), form.getGradeType().toString(), form.getEventType().toString(), form.getAttachments());
+		BoundStatement bound = session.prepare(s).bind(form.getIssuer(), form.getDescription(), form.getCost(),
+				form.getGradeType().toString(), form.getEventType().toString(), form.getAttachments());
 		session.execute(bound);
 	}
 
@@ -35,11 +35,32 @@ public class TuitionDAOImpl implements TuitionDAO {
 		String query = "Select issuer, description, cost, gradetype, eventtype, attachments from form";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		ResultSet rs = session.execute(s);
-		List<TuitionReimbursementForm> forms = new ArrayList<>();
+		List<TuitionReimbursementForm> forms = new ArrayList<TuitionReimbursementForm>();
 		rs.forEach(row -> {
 			TuitionReimbursementForm form = new TuitionReimbursementForm();
 			form.setIssuer(row.getString("issuer"));
-			//form.setCreationTime(LocalDateTime.parse(row.getString("creationtime")));
+			// form.setCreationTime(LocalDateTime.parse(row.getString("creationtime")));
+			form.setDescription(row.getString("description"));
+			form.setCost(row.getInt("cost"));
+			form.setGradeType(GradeType.valueOf(row.getString("gradetype")));
+			form.setEventType(ReimbursementEventType.valueOf(row.getString("eventtype")));
+			form.setAttachments(row.getList("attachments", Attachment.class));
+			forms.add(form);
+		});
+		return forms;
+	}
+
+	@Override
+	public List<TuitionReimbursementForm> getTuitionFormsByEmployee(String issuer) {
+		String query = "Select issuer, description, cost, gradetype, eventtype, attachments from form where issuer=?";
+		SimpleStatement s = new SimpleStatementBuilder(query).build();
+		BoundStatement bound = session.prepare(s).bind(issuer);
+		ResultSet rs = session.execute(bound);
+		List<TuitionReimbursementForm> forms = new ArrayList<TuitionReimbursementForm>();
+		rs.forEach(row -> {
+			TuitionReimbursementForm form = new TuitionReimbursementForm();
+			form.setIssuer(row.getString("issuer"));
+			// form.setCreationTime(LocalDateTime.parse(row.getString("creationtime")));
 			form.setDescription(row.getString("description"));
 			form.setCost(row.getInt("cost"));
 			form.setGradeType(GradeType.valueOf(row.getString("gradetype")));

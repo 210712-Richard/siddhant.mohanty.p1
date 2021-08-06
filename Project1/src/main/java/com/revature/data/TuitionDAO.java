@@ -22,4 +22,13 @@ public interface TuitionDAO {
 	
 	List<TuitionReimbursementForm> getTuitionForms();
 	
+	/**
+	 * Gets the list of forms submitted by a particular employee
+	 * 
+	 * @param issuer The username of the employee who issued the form
+	 * @return The list of forms sumbitted by that employee
+	 */
+	
+	List<TuitionReimbursementForm> getTuitionFormsByEmployee(String issuer);
+	
 }

@@ -15,12 +15,14 @@ public class Driver {
 
 	public static void instantiateDatabase() {
 		DataBaseCreator.dropTables();
+		System.out.println("Tables dropped");
 		try {
 			Thread.sleep(30000); // wait 30 seconds
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		DataBaseCreator.createTables();
+		System.out.println("Tables created");
 		try {
 			Thread.sleep(30000); // wait 30 seconds
 		} catch(Exception e) {
@@ -29,6 +31,7 @@ public class Driver {
 		DataBaseCreator.populateEmployeeTable();
 		DataBaseCreator.populateFormTable();
 		DataBaseCreator.populateNotificationsTable();
+		System.out.println("Tables populated");
 		System.exit(0);
 	}
 }
