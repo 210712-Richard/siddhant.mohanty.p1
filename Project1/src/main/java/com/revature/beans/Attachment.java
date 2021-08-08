@@ -5,16 +5,16 @@ import java.util.Objects;
 public class Attachment {
 
 	private AttachmentType type;
-	private String body;
+	private String URI;
 
 	public Attachment() {
 		this.type = AttachmentType.PDF;
-		this.body = "Nothing here";
+		this.URI = "";
 	}
 
-	public Attachment(AttachmentType type, String body) {
+	public Attachment(AttachmentType type, String URI) {
 		this.type = type;
-		this.body = body;
+		this.URI = URI;
 	}
 
 	public AttachmentType getType() {
@@ -25,17 +25,17 @@ public class Attachment {
 		this.type = type;
 	}
 
-	public String getBody() {
-		return body;
+	public String getURI() {
+		return URI;
 	}
 
-	public void setBody(String body) {
-		this.body = body;
+	public void setURI(String URI) {
+		this.URI = URI;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(body, type);
+		return Objects.hash(URI, type);
 	}
 
 	@Override
@@ -47,11 +47,11 @@ public class Attachment {
 		if (getClass() != obj.getClass())
 			return false;
 		Attachment other = (Attachment) obj;
-		return Objects.equals(body, other.body) && type == other.type;
+		return Objects.equals(URI, other.URI) && type == other.type;
 	}
 
 	@Override
 	public String toString() {
-		return "Attachment [type=" + type + ", body=" + body + "]";
+		return "Attachment [type=" + type + ", URI=" + URI + "]";
 	}
 }
