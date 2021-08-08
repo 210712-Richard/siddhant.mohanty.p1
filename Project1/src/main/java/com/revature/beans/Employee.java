@@ -8,31 +8,81 @@ import java.util.UUID;
 public class Employee {
 
 	private String username;
+	private String password;
+	private String email;
 	private String firstName;
 	private String lastName;
-	private String password;
-	private Integer id;
-	private Integer reimbursement;
+	private String supervisorName;
+	private String dept;
+	private Double pendingReimbursement;
+	private Double awardedReimbursement;
 	private EmployeeType type;
+	// Forms submitted by the employee that do not have any action on them
 	private List<UUID> forms = new ArrayList<UUID>();
+	// Forms submitted by the employee that have been looked at and have been
+	// returned to the employee for further review
+	private List<UUID> reviewForms = new ArrayList<UUID>();
 	private List<String> notifications = new ArrayList<String>();
 
 	public Employee() {
 		super();
-		this.reimbursement = 1000;
+		this.pendingReimbursement = 0.0;
+		this.awardedReimbursement = 0.0;
 		this.type = EmployeeType.REGEMPLOYEE;
 		this.notifications.add("Welcome!");
 	}
 
-	public Employee(String firstName, String lastName, String username, String password,
-			EmployeeType type) {
+	public Employee(String username, String password, String email, String firstName, String lastName,
+			String supervisorName, String dept, EmployeeType type) {
 		this();
-		this.firstName = firstName;
-		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
-		// this.id = id;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.supervisorName = supervisorName;
+		this.dept = dept;
 		this.type = type;
+	}
+
+	public List<UUID> getReviewForms() {
+		return reviewForms;
+	}
+
+	public void setReviewForms(List<UUID> reviewForms) {
+		this.reviewForms = reviewForms;
+	}
+
+	public String getSupervisorName() {
+		return supervisorName;
+	}
+
+	public void setSupervisorName(String supervisorName) {
+		this.supervisorName = supervisorName;
+	}
+
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+
+	public Double getPendingReimbursement() {
+		return pendingReimbursement;
+	}
+
+	public void setPendingReimbursement(Double pendingReimbursement) {
+		this.pendingReimbursement = pendingReimbursement;
+	}
+
+	public Double getAwardedReimbursement() {
+		return awardedReimbursement;
+	}
+
+	public void setAwardedReimbursement(Double awardedReimbursement) {
+		this.awardedReimbursement = awardedReimbursement;
 	}
 
 	public String getUsername() {
@@ -67,20 +117,12 @@ public class Employee {
 		this.password = password;
 	}
 
-	public Integer getId() {
-		return id;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getReimbursement() {
-		return reimbursement;
-	}
-
-	public void setReimbursement(Integer reimbursement) {
-		this.reimbursement = reimbursement;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public EmployeeType getType() {
@@ -109,7 +151,8 @@ public class Employee {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(firstName, forms, id, lastName, notifications, password, reimbursement, type, username);
+		return Objects.hash(awardedReimbursement, dept, email, firstName, forms, lastName, notifications, password,
+				pendingReimbursement, reviewForms, supervisorName, type, username);
 	}
 
 	@Override
@@ -121,18 +164,23 @@ public class Employee {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(firstName, other.firstName) && Objects.equals(forms, other.forms)
-				&& Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
+		return Objects.equals(awardedReimbursement, other.awardedReimbursement) && Objects.equals(dept, other.dept)
+				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(forms, other.forms) && Objects.equals(lastName, other.lastName)
 				&& Objects.equals(notifications, other.notifications) && Objects.equals(password, other.password)
-				&& Objects.equals(reimbursement, other.reimbursement) && type == other.type
+				&& Objects.equals(pendingReimbursement, other.pendingReimbursement)
+				&& Objects.equals(reviewForms, other.reviewForms)
+				&& Objects.equals(supervisorName, other.supervisorName) && type == other.type
 				&& Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "Employee [username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
-				+ password + ", id=" + id + ", reimbursement=" + reimbursement + ", type=" + type + ", forms=" + forms
-				+ ", notifications=" + notifications + "]";
+		return "Employee [username=" + username + ", password=" + password + ", email=" + email + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", supervisorName=" + supervisorName + ", dept=" + dept
+				+ ", pendingReimbursement=" + pendingReimbursement + ", awardedReimbursement=" + awardedReimbursement
+				+ ", type=" + type + ", forms=" + forms + ", reviewForms=" + reviewForms + ", notifications="
+				+ notifications + "]";
 	}
 
 }

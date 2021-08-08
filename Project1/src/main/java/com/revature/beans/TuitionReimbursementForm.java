@@ -1,6 +1,7 @@
 package com.revature.beans;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -8,29 +9,33 @@ import java.util.UUID;
 public class TuitionReimbursementForm {
 
 	private String issuer;
-	private LocalDateTime creationTime;
 	private String description; // description will include work time missed
+	private String location;
 	private Integer cost;
 	private GradeType gradeType;
 	private ReimbursementEventType eventType;
 	private List<Attachment> attachments;
+	private LocalDate creationDate;
+	private LocalTime creationTime;
 	private UUID id;
 
 	public TuitionReimbursementForm() {
-		this.issuer = "Nobody";
-		this.creationTime = LocalDateTime.now();
+		this.issuer = "Nobody";		
 		this.description = "Nothing";
+		this.location = "Nowhere";
 		this.cost = 0;
 		this.gradeType = GradeType.LETTER;
 		this.eventType = ReimbursementEventType.CERT;
+		this.creationDate = LocalDate.now();
+		this.creationTime = LocalTime.now();
 	}
 
-	public TuitionReimbursementForm(String issuer, LocalDateTime dateTime, String description, Integer cost,
+	public TuitionReimbursementForm(String issuer, String description, String location, Integer cost,
 			GradeType gradeType, ReimbursementEventType eventType, List<Attachment> attachments) {
 
 		this.issuer = issuer;
-		this.creationTime = dateTime;
 		this.description = description;
+		this.location = location;
 		this.cost = cost;
 		this.gradeType = gradeType;
 		this.eventType = eventType;
@@ -45,12 +50,20 @@ public class TuitionReimbursementForm {
 		this.issuer = issuer;
 	}
 
-	public LocalDateTime getCreationTime() {
+	public LocalTime getCreationTime() {
 		return creationTime;
 	}
 
-	public void setCreationTime(LocalDateTime dateTime) {
-		this.creationTime = dateTime;
+	public void setCreationTime(LocalTime creationTime) {
+		this.creationTime = creationTime;
+	}
+	
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public String getDescription() {
@@ -99,6 +112,14 @@ public class TuitionReimbursementForm {
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+	
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	@Override

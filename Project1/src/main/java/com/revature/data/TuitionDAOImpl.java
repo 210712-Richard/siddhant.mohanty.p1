@@ -1,6 +1,5 @@
 package com.revature.data;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,29 +21,30 @@ public class TuitionDAOImpl implements TuitionDAO {
 
 	@Override
 	public void addTuitionForm(TuitionReimbursementForm form) {
-		String query = "Insert into form (issuer, description, cost, gradetype, eventtype, attachments) values (?, ?, ?, ?, ?, ?);";
+		String query = "Insert into form (issuer, description, cost, gradetype, eventtype, attachments, creationdate, creationtime) values (?, ?, ?, ?, ?, ?, ?, ?);";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
 				.build();
 		BoundStatement bound = session.prepare(s).bind(form.getIssuer(), form.getDescription(), form.getCost(),
-				form.getGradeType().toString(), form.getEventType().toString(), form.getAttachments());
+				form.getGradeType().toString(), form.getEventType().toString(), form.getAttachments(), form.getCreationDate(), form.getCreationTime());
 		session.execute(bound);
 	}
 
 	@Override
 	public List<TuitionReimbursementForm> getTuitionForms() {
-		String query = "Select issuer, description, cost, gradetype, eventtype, attachments from form";
+		String query = "Select issuer, description, cost, gradetype, eventtype, attachments, creationdate, creationtime from form";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		ResultSet rs = session.execute(s);
 		List<TuitionReimbursementForm> forms = new ArrayList<TuitionReimbursementForm>();
 		rs.forEach(row -> {
 			TuitionReimbursementForm form = new TuitionReimbursementForm();
 			form.setIssuer(row.getString("issuer"));
-			// form.setCreationTime(LocalDateTime.parse(row.getString("creationtime")));
 			form.setDescription(row.getString("description"));
 			form.setCost(row.getInt("cost"));
 			form.setGradeType(GradeType.valueOf(row.getString("gradetype")));
 			form.setEventType(ReimbursementEventType.valueOf(row.getString("eventtype")));
 			form.setAttachments(row.getList("attachments", Attachment.class));
+			form.setCreationDate(row.getLocalDate("creationdate"));
+			form.setCreationTime(row.getLocalTime("creationtime"));
 			forms.add(form);
 		});
 		return forms;
@@ -52,7 +52,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 
 	@Override
 	public List<TuitionReimbursementForm> getTuitionFormsByEmployee(String issuer) {
-		String query = "Select issuer, description, cost, gradetype, eventtype, attachments from form where issuer=?";
+		String query = "Select issuer, description, cost, gradetype, eventtype, attachments, creationdate, creationtime from form where issuer=?";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		BoundStatement bound = session.prepare(s).bind(issuer);
 		ResultSet rs = session.execute(bound);
@@ -60,12 +60,13 @@ public class TuitionDAOImpl implements TuitionDAO {
 		rs.forEach(row -> {
 			TuitionReimbursementForm form = new TuitionReimbursementForm();
 			form.setIssuer(row.getString("issuer"));
-			// form.setCreationTime(LocalDateTime.parse(row.getString("creationtime")));
 			form.setDescription(row.getString("description"));
 			form.setCost(row.getInt("cost"));
 			form.setGradeType(GradeType.valueOf(row.getString("gradetype")));
 			form.setEventType(ReimbursementEventType.valueOf(row.getString("eventtype")));
 			form.setAttachments(row.getList("attachments", Attachment.class));
+			form.setCreationDate(row.getLocalDate("creationdate"));
+			form.setCreationTime(row.getLocalTime("creationtime"));
 			forms.add(form);
 		});
 		return forms;

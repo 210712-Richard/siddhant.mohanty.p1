@@ -9,8 +9,6 @@ import com.datastax.oss.driver.api.core.cql.BoundStatement;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.core.cql.SimpleStatementBuilder;
-import com.revature.beans.Employee;
-import com.revature.beans.EmployeeType;
 import com.revature.util.CassandraUtil;
 
 public class NotificationDAOImpl implements NotificationDAO {

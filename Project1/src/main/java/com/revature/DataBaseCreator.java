@@ -1,7 +1,5 @@
 package com.revature;
 
-import java.time.LocalDateTime;
-
 import com.revature.beans.Employee;
 import com.revature.beans.EmployeeType;
 import com.revature.beans.GradeType;
@@ -9,6 +7,8 @@ import com.revature.beans.ReimbursementEventType;
 import com.revature.beans.TuitionReimbursementForm;
 import com.revature.data.EmployeeDAO;
 import com.revature.data.EmployeeDAOImpl;
+import com.revature.data.NotificationDAO;
+import com.revature.data.NotificationDAOImpl;
 import com.revature.data.TuitionDAO;
 import com.revature.data.TuitionDAOImpl;
 import com.revature.util.CassandraUtil;
@@ -17,6 +17,7 @@ public class DataBaseCreator {
 
 	private static EmployeeDAO ed = new EmployeeDAOImpl();
 	private static TuitionDAO td = new TuitionDAOImpl();
+	private static NotificationDAO nd = new NotificationDAOImpl();
 
 	public static void dropTables() {
 		StringBuilder sb = new StringBuilder("DROP TABLE IF EXISTS employee;");
@@ -32,13 +33,15 @@ public class DataBaseCreator {
 
 	public static void createTables() {
 		StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS employee (")
-				.append("username text, password text, type text, firstname text, lastname text,")
-				.append(" reimbursement int, primary key(username, firstname));");
+				.append("username text, password text, email text, firstname text, lastname text, ")
+				.append("supervisorname text, dept text, pendingreimbursement double, ")
+				.append("awardedreimbursement double, type text, forms list<UUID>, reviewforms list<UUID>, ")
+				.append("primary key(username, firstname));");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
 
 		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS form (")
-				.append("issuer text, description text, cost int,")
-				.append(" gradetype text, eventtype text, attachments list<uuid>, primary key (issuer, description)); ");
+				.append("issuer text, description text, cost int, ")
+				.append("gradetype text, eventtype text, attachments list<uuid>, creationdate date, creationtime time, primary key (issuer, description)); ");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
 		
 		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS notifications (")
@@ -55,12 +58,12 @@ public class DataBaseCreator {
 	}
 
 	public static void populateFormTable() {
-		TuitionReimbursementForm form = new TuitionReimbursementForm("boss_man", LocalDateTime.now(), "The first form",
+		TuitionReimbursementForm form = new TuitionReimbursementForm("boss_man", "The first form",
 				100, GradeType.LETTER, ReimbursementEventType.CERT, null);
 		td.addTuitionForm(form);
 	}
 	
 	public static void populateNotificationsTable() {
-		ed.addNotification("boss_man", "You did it!");
+		nd.addNotification("boss_man", "You did it!");
 	}
 }

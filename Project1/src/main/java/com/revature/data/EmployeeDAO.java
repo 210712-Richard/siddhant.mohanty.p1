@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.revature.beans.Employee;
 import com.revature.beans.EmployeeType;
-import com.revature.beans.TuitionReimbursementForm;
 
 public interface EmployeeDAO {
 
@@ -28,10 +27,11 @@ public interface EmployeeDAO {
 	 * Gets a particular employee from the system
 	 * 
 	 * @param username The username of the employee
+	 * @param password The password of the employee
 	 * @return The employee whose username matches the input parameter
 	 */
 
-	Employee getEmployeeByName(String username);
+	Employee getEmployeeByName(String username, String password);
 
 	/**
 	 * Gets all the employees of a particular type
