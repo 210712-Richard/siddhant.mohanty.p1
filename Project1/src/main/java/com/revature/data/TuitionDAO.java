@@ -31,4 +31,12 @@ public interface TuitionDAO {
 	
 	List<TuitionReimbursementForm> getTuitionFormsByEmployee(String issuer);
 	
+	/**
+	 * Updates a form that is already in the system with new values
+	 * 
+	 * @param form The form to be updated
+	 */
+	
+	void updateTuitionForm(TuitionReimbursementForm form);
+	
 }

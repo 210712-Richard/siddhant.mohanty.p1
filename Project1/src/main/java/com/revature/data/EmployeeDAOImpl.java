@@ -28,7 +28,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				.build();
 		BoundStatement bound = session.prepare(s).bind(emp.getUsername(), emp.getPassword(), emp.getEmail(),
 				emp.getFirstName(), emp.getLastName(), emp.getSupervisorName(), emp.getDept(),
-				emp.getPendingReimbursement(), emp.getAwardedReimbursement(), emp.getType(), emp.getForms(),
+				emp.getPendingReimbursement(), emp.getAwardedReimbursement(), emp.getType().toString(), emp.getForms(),
 				emp.getReviewForms());
 		session.execute(bound);
 	}
@@ -99,6 +99,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			}
 		}
 		return typedEmployees;
+	}
+	
+	public List<Employee> getEmployeeByDepartment(String department) {
+		List<Employee> departmentEmployees = new ArrayList<Employee>();
+		List<Employee> employees = getEmployees();
+		for (Employee e : employees) {
+			if (e.getDept().equals(department)) {
+				departmentEmployees.add(e);
+			}
+		}
+		return departmentEmployees;
 	}
 
 	@Override

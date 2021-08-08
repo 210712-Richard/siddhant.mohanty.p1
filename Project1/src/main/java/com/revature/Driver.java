@@ -17,20 +17,21 @@ public class Driver {
 		DataBaseCreator.dropTables();
 		System.out.println("Tables dropped");
 		try {
-			Thread.sleep(30000); // wait 30 seconds
+			Thread.sleep(40000); // wait 40 seconds
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		DataBaseCreator.createTables();
 		System.out.println("Tables created");
 		try {
-			Thread.sleep(30000); // wait 30 seconds
+			Thread.sleep(50000); // wait 50 seconds
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		DataBaseCreator.populateEmployeeTable();
 		DataBaseCreator.populateFormTable();
 		DataBaseCreator.populateNotificationsTable();
+		DataBaseCreator.populateDepartmentsTable();
 		System.out.println("Tables populated");
 		System.exit(0);
 	}

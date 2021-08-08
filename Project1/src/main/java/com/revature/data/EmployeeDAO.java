@@ -43,6 +43,15 @@ public interface EmployeeDAO {
 	List<Employee> getEmployeeByType(EmployeeType type);
 
 	/**
+	 * Gets all employees of a particular department
+	 * 
+	 * @param department The name of the department to query by
+	 * @return A list of all employees from the department
+	 */
+	
+	List<Employee> getEmployeeByDepartment(String department);
+	
+	/**
 	 * Updates an employee within the system
 	 * 
 	 * @param employee The updated version of the employee to be placed into the database

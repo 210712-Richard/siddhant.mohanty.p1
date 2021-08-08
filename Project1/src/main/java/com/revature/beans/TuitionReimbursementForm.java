@@ -1,5 +1,6 @@
 package com.revature.beans;
 
+import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -8,9 +9,9 @@ import java.util.UUID;
 
 public class TuitionReimbursementForm {
 
+	private UUID id;
 	private String issuer;
 	private String title;
-	private UUID id;
 	private String description; // description will include work time missed
 	private String location;
 	private Double cost;
@@ -33,19 +34,20 @@ public class TuitionReimbursementForm {
 
 	public TuitionReimbursementForm() {
 		this.id = UUID.randomUUID();
+		this.creationDate = LocalDate.now();
+		this.creationTime = LocalTime.now();
 		this.urgent = false;
 	}
 
 	public TuitionReimbursementForm(String issuer, String title, String description, String location, Double cost,
-			LocalDate startDate, LocalDate creationDate, LocalTime creationTime, GradeType gradeType,
+			LocalDate startDate, GradeType gradeType,
 			ReimbursementEventType eventType, List<Attachment> attachments) {
+		this();
 		this.issuer = issuer;
 		this.description = description;
 		this.location = location;
 		this.cost = cost;
 		this.startDate = startDate;
-		this.creationDate = creationDate;
-		this.creationTime = creationTime;
 		this.gradeType = gradeType;
 		this.eventType = eventType;
 		this.attachments = attachments;
