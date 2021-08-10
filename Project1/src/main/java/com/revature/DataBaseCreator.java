@@ -42,7 +42,7 @@ public class DataBaseCreator {
 	public static void createTables() {
 		StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS employee (")
 				.append("username text, password text, email text, firstname text, lastname text, ")
-				.append("supervisorname text, dept text, pendingreimbursement double, ")
+				.append("supervisorname text, dept text, isdepthead boolean pendingreimbursement double, ")
 				.append("awardedreimbursement double, type text, forms list<UUID>, reviewforms list<UUID>, ")
 				.append("primary key(username, firstname));");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
@@ -68,13 +68,13 @@ public class DataBaseCreator {
 	}
 
 	public static void populateEmployeeTable() {
-		ed.addEmployee(new Employee("boss_man", "boss_password", "boss@man.com", "Boss", "Man", null, "Company", EmployeeType.SUPERVISOR));
-		ed.addEmployee(new Employee("sidd_mohanty", "sidd_password", "sidd@mohanty.com", "Sidd", "Mohanty", "ent", "Development", EmployeeType.REGEMPLOYEE));
-		ed.addEmployee(new Employee("ham_yam", "ham_password", "ham@yam.com", "Ham", "Yam", "eieio", "Human Resources", EmployeeType.REGEMPLOYEE));
-		ed.addEmployee(new Employee("sunscreen", "spf70", "its@hot.com", "Sun", "Burns", "boss_man", "Human Resources", EmployeeType.SUPERVISOR));
-		ed.addEmployee(new Employee("ent", "ed_password", "edward@trent.com", "Edward", "Trent", "boss_man", "Development", EmployeeType.SUPERVISOR));
-		ed.addEmployee(new Employee("eieio", "farm", "email.com", "Old", "McDonald", "sunscreen", "Human Resources", EmployeeType.SUPERVISOR));
-		ed.addEmployee(new Employee("sponge", "bob_password", "bikini@bottom.com", "Robert", "Pants", "boss_man", "Benefits Coordination",  EmployeeType.BENCO));
+		ed.addEmployee(new Employee("boss_man", "boss_password", "boss@man.com", "Boss", "Man", null, "Company", true, EmployeeType.SUPERVISOR));
+		ed.addEmployee(new Employee("sidd_mohanty", "sidd_password", "sidd@mohanty.com", "Sidd", "Mohanty", "ent", "Development", false, EmployeeType.REGEMPLOYEE));
+		ed.addEmployee(new Employee("ham_yam", "ham_password", "ham@yam.com", "Ham", "Yam", "eieio", "Human Resources", false, EmployeeType.REGEMPLOYEE));
+		ed.addEmployee(new Employee("sunscreen", "spf70", "its@hot.com", "Sun", "Burns", "boss_man", "Human Resources", true, EmployeeType.SUPERVISOR));
+		ed.addEmployee(new Employee("ent", "ed_password", "edward@trent.com", "Edward", "Trent", "boss_man", "Development", true, EmployeeType.SUPERVISOR));
+		ed.addEmployee(new Employee("eieio", "farm", "email.com", "Old", "McDonald", "sunscreen", "Human Resources", true, EmployeeType.SUPERVISOR));
+		ed.addEmployee(new Employee("sponge", "bob_password", "bikini@bottom.com", "Robert", "Pants", "boss_man", "Benefits Coordination", true,  EmployeeType.BENCO));
 	}
 
 	public static void populateFormTable() {

@@ -14,6 +14,7 @@ public class Employee {
 	private String lastName;
 	private String supervisorName;
 	private String dept;
+	private Boolean isDeptHead;
 	private Double pendingReimbursement;
 	private Double awardedReimbursement;
 	private EmployeeType type;
@@ -29,11 +30,12 @@ public class Employee {
 		this.pendingReimbursement = 0.0;
 		this.awardedReimbursement = 0.0;
 		this.type = EmployeeType.REGEMPLOYEE;
+		this.isDeptHead = false;
 		this.notifications.add("Welcome!");
 	}
 
 	public Employee(String username, String password, String email, String firstName, String lastName,
-			String supervisorName, String dept, EmployeeType type) {
+			String supervisorName, String dept, Boolean isDeptHead, EmployeeType type) {
 		this();
 		this.username = username;
 		this.password = password;
@@ -42,7 +44,16 @@ public class Employee {
 		this.lastName = lastName;
 		this.supervisorName = supervisorName;
 		this.dept = dept;
+		this.isDeptHead = isDeptHead;
 		this.type = type;
+	}
+
+	public Boolean getIsDeptHead() {
+		return isDeptHead;
+	}
+
+	public void setIsDeptHead(Boolean isDeptHead) {
+		this.isDeptHead = isDeptHead;
 	}
 
 	public List<UUID> getReviewForms() {
@@ -151,8 +162,8 @@ public class Employee {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(awardedReimbursement, dept, email, firstName, forms, lastName, notifications, password,
-				pendingReimbursement, reviewForms, supervisorName, type, username);
+		return Objects.hash(awardedReimbursement, dept, email, firstName, forms, isDeptHead, lastName, notifications,
+				password, pendingReimbursement, reviewForms, supervisorName, type, username);
 	}
 
 	@Override
@@ -166,8 +177,9 @@ public class Employee {
 		Employee other = (Employee) obj;
 		return Objects.equals(awardedReimbursement, other.awardedReimbursement) && Objects.equals(dept, other.dept)
 				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(forms, other.forms) && Objects.equals(lastName, other.lastName)
-				&& Objects.equals(notifications, other.notifications) && Objects.equals(password, other.password)
+				&& Objects.equals(forms, other.forms) && Objects.equals(isDeptHead, other.isDeptHead)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(notifications, other.notifications)
+				&& Objects.equals(password, other.password)
 				&& Objects.equals(pendingReimbursement, other.pendingReimbursement)
 				&& Objects.equals(reviewForms, other.reviewForms)
 				&& Objects.equals(supervisorName, other.supervisorName) && type == other.type
@@ -178,9 +190,9 @@ public class Employee {
 	public String toString() {
 		return "Employee [username=" + username + ", password=" + password + ", email=" + email + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", supervisorName=" + supervisorName + ", dept=" + dept
-				+ ", pendingReimbursement=" + pendingReimbursement + ", awardedReimbursement=" + awardedReimbursement
-				+ ", type=" + type + ", forms=" + forms + ", reviewForms=" + reviewForms + ", notifications="
-				+ notifications + "]";
+				+ ", isDeptHead=" + isDeptHead + ", pendingReimbursement=" + pendingReimbursement
+				+ ", awardedReimbursement=" + awardedReimbursement + ", type=" + type + ", forms=" + forms
+				+ ", reviewForms=" + reviewForms + ", notifications=" + notifications + "]";
 	}
 
 }

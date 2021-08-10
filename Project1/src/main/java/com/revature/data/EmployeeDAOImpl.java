@@ -22,12 +22,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public void addEmployee(Employee emp) {
 		String query = "INSERT INTO employee (username, password, email, firstname, lastname, "
-				+ "supervisorname, dept, pendingreimbursement, "
-				+ "awardedreimbursement, type, forms, reviewforms) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "supervisorname, dept, isdepthead, pendingreimbursement, "
+				+ "awardedreimbursement, type, forms, reviewforms) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
 				.build();
 		BoundStatement bound = session.prepare(s).bind(emp.getUsername(), emp.getPassword(), emp.getEmail(),
-				emp.getFirstName(), emp.getLastName(), emp.getSupervisorName(), emp.getDept(),
+				emp.getFirstName(), emp.getLastName(), emp.getSupervisorName(), emp.getDept(), emp.getIsDeptHead(),
 				emp.getPendingReimbursement(), emp.getAwardedReimbursement(), emp.getType().toString(), emp.getForms(),
 				emp.getReviewForms());
 		session.execute(bound);
@@ -36,7 +36,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public List<Employee> getEmployees() {
 		String query = "SELECT username, password, email, firstname, lastname, "
-				+ "supervisorname, dept, pendingreimbursement, "
+				+ "supervisorname, dept, isdepthead, pendingreimbursement, "
 				+ "awardedreimbursement, type, forms, reviewforms from employee;";
 		// This query will not be particularly efficient as it needs to query every
 		// partition.
@@ -51,6 +51,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			emp.setLastName(row.getString("lastname"));
 			emp.setSupervisorName(row.getString("supervisorname"));
 			emp.setDept(row.getString("dept"));
+			emp.setIsDeptHead(row.getBoolean("isdepthead"));
 			emp.setPendingReimbursement(row.getDouble("pendingreimbursement"));
 			emp.setAwardedReimbursement(row.getDouble("awardedreimbursement"));
 			emp.setType(EmployeeType.valueOf(row.getString("type")));
@@ -64,7 +65,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public Employee getEmployeeByName(String username, String password) {
 		String query = "SELECT username, password, email, firstname, lastname, "
-				+ "supervisorname, dept, pendingreimbursement, "
+				+ "supervisorname, dept, isdepthead, pendingreimbursement, "
 				+ "awardedreimbursement, type, forms, reviewforms FROM employee " + "WHERE username=? AND password=?";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		BoundStatement bound = session.prepare(s).bind(username, password);
@@ -81,6 +82,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		emp.setLastName(row.getString("lastname"));
 		emp.setSupervisorName(row.getString("supervisorname"));
 		emp.setDept(row.getString("dept"));
+		emp.setIsDeptHead(row.getBoolean("isdepthead"));;
 		emp.setPendingReimbursement(row.getDouble("pendingreimbursement"));
 		emp.setAwardedReimbursement(row.getDouble("awardedreimbursement"));
 		emp.setType(EmployeeType.valueOf(row.getString("type")));
@@ -115,12 +117,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public void updateEmployee(Employee e) {
 		String query = "UPDATE employee SET email=?, firstname=?, lastname=?, "
-				+ "supervisorname=?, dept=?, pendingreimbursement=?, "
+				+ "supervisorname=?, dept=?, isdepthead=?, pendingreimbursement=?, "
 				+ "awardedreimbursement=?, type=?, forms=?, reviewforms=? " + "WHERE username=? AND password=?;";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
 				.build();
 		BoundStatement bound = session.prepare(s).bind(e.getEmail(), e.getFirstName(), e.getLastName(),
-				e.getSupervisorName(), e.getDept(), e.getPendingReimbursement(), e.getAwardedReimbursement(),
+				e.getSupervisorName(), e.getDept(), e.getIsDeptHead(), e.getPendingReimbursement(), e.getAwardedReimbursement(),
 				e.getType(), e.getForms(), e.getReviewForms(), e.getUsername(), e.getPassword());
 		session.execute(bound);
 	}
