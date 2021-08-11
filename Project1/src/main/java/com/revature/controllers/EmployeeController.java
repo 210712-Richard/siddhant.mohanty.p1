@@ -10,6 +10,8 @@ public interface EmployeeController {
 	
 	void register(Context ctx);
 	
+	void viewNotifications(Context ctx);
 	
+	void clearNotifications(Context ctx);
 	
 }
