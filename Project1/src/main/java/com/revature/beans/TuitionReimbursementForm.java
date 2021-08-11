@@ -25,6 +25,7 @@ public class TuitionReimbursementForm {
 	private Boolean supervisorApproved;
 	private Boolean deptHeadApproved;
 	private Boolean benCoApproved;
+	private Boolean declined;
 	private String reasonDeclined;
 	private String grade;
 	private Boolean passed;
@@ -37,6 +38,7 @@ public class TuitionReimbursementForm {
 		this.creationDate = LocalDate.now();
 		this.creationTime = LocalTime.now();
 		this.urgent = false;
+		this.declined = false;
 	}
 
 	public TuitionReimbursementForm(String issuer, String title, String description, String location, Double cost,
@@ -51,6 +53,14 @@ public class TuitionReimbursementForm {
 		this.gradeType = gradeType;
 		this.eventType = eventType;
 		this.attachments = attachments;
+	}
+	
+	public Boolean getDeclined() {
+		return declined;
+	}
+
+	public void setDeclined(Boolean declined) {
+		this.declined = declined;
 	}
 
 	public String getIssuer() {
@@ -232,8 +242,8 @@ public class TuitionReimbursementForm {
 	@Override
 	public int hashCode() {
 		return Objects.hash(attachments, awardedAmount, awardedReason, benCoApproved, cost, creationDate, creationTime,
-				deptHeadApproved, description, eventType, finalCheck, grade, gradeType, id, issuer, location, passed,
-				reasonDeclined, startDate, supervisorApproved, title, urgent);
+				declined, deptHeadApproved, description, eventType, finalCheck, grade, gradeType, id, issuer, location,
+				passed, reasonDeclined, startDate, supervisorApproved, title, urgent);
 	}
 
 	@Override
@@ -249,7 +259,7 @@ public class TuitionReimbursementForm {
 				&& Objects.equals(awardedReason, other.awardedReason)
 				&& Objects.equals(benCoApproved, other.benCoApproved) && Objects.equals(cost, other.cost)
 				&& Objects.equals(creationDate, other.creationDate) && Objects.equals(creationTime, other.creationTime)
-				&& Objects.equals(deptHeadApproved, other.deptHeadApproved)
+				&& Objects.equals(declined, other.declined) && Objects.equals(deptHeadApproved, other.deptHeadApproved)
 				&& Objects.equals(description, other.description) && eventType == other.eventType
 				&& Objects.equals(finalCheck, other.finalCheck) && Objects.equals(grade, other.grade)
 				&& gradeType == other.gradeType && Objects.equals(id, other.id) && Objects.equals(issuer, other.issuer)
@@ -261,13 +271,13 @@ public class TuitionReimbursementForm {
 
 	@Override
 	public String toString() {
-		return "TuitionReimbursementForm [issuer=" + issuer + ", title=" + title + ", id=" + id + ", description="
+		return "TuitionReimbursementForm [id=" + id + ", issuer=" + issuer + ", title=" + title + ", description="
 				+ description + ", location=" + location + ", cost=" + cost + ", startDate=" + startDate
 				+ ", creationDate=" + creationDate + ", creationTime=" + creationTime + ", gradeType=" + gradeType
 				+ ", eventType=" + eventType + ", attachments=" + attachments + ", urgent=" + urgent
 				+ ", supervisorApproved=" + supervisorApproved + ", deptHeadApproved=" + deptHeadApproved
-				+ ", benCoApproved=" + benCoApproved + ", reasonDeclined=" + reasonDeclined + ", grade=" + grade
-				+ ", passed=" + passed + ", awardedAmount=" + awardedAmount + ", awardedReason=" + awardedReason
-				+ ", finalCheck=" + finalCheck + "]";
+				+ ", benCoApproved=" + benCoApproved + ", declined=" + declined + ", reasonDeclined=" + reasonDeclined
+				+ ", grade=" + grade + ", passed=" + passed + ", awardedAmount=" + awardedAmount + ", awardedReason="
+				+ awardedReason + ", finalCheck=" + finalCheck + "]";
 	}
 }

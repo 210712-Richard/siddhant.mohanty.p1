@@ -2,6 +2,7 @@ package com.revature.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.DefaultConsistencyLevel;
@@ -24,17 +25,17 @@ public class TuitionDAOImpl implements TuitionDAO {
 		String query = "INSERT INTO form (id, issuer, title, description, "
 				+ "location, cost, startdate, creationdate, creationtime, "
 				+ "gradetype, eventtype, attachments, urgent, "
-				+ "supervisorapproved, deptheadapproved, bencoapproved, "
+				+ "supervisorapproved, deptheadapproved, bencoapproved, declined, "
 				+ "reasondeclined, grade, passed, awardedamount, awardedreason, finalcheck) VALUES "
-				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
 				.build();
 		BoundStatement bound = session.prepare(s).bind(form.getId(), form.getIssuer(), form.getTitle(),
 				form.getDescription(), form.getLocation(), form.getCost(), form.getStartDate(), form.getCreationDate(),
 				form.getCreationTime(), form.getGradeType().toString(), form.getEventType().toString(),
 				form.getAttachments(), form.getUrgent(), form.getSupervisorApproved(), form.getDeptHeadApproved(),
-				form.getBenCoApproved(), form.getReasonDeclined(), form.getGrade(), form.getPassed(),
-				form.getAwardedAmount(), form.getAwardedReason(), form.getFinalCheck());
+				form.getBenCoApproved(), form.getDeclined(), form.getReasonDeclined(), form.getGrade(),
+				form.getPassed(), form.getAwardedAmount(), form.getAwardedReason(), form.getFinalCheck());
 		session.execute(bound);
 	}
 
@@ -43,7 +44,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 		String query = "SELECT id, issuer, title, description, "
 				+ "location, cost, startdate, creationdate, creationtime, "
 				+ "gradetype, eventtype, attachments, urgent, "
-				+ "supervisorapproved, deptheadapproved, bencoapproved, "
+				+ "supervisorapproved, deptheadapproved, bencoapproved, declined, "
 				+ "reasondeclined, grade, passed, awardedamount, awardedreason, finalcheck FROM form";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		ResultSet rs = session.execute(s);
@@ -66,6 +67,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 			form.setSupervisorApproved(row.getBoolean("supervisorapproved"));
 			form.setDeptHeadApproved(row.getBoolean("deptheadapproved"));
 			form.setBenCoApproved(row.getBoolean("bencoapproved"));
+			form.setDeclined(row.getBoolean("declined"));
 			form.setReasonDeclined(row.getString("reasondeclined"));
 			form.setGrade(row.getString("grade"));
 			form.setPassed(row.getBoolean("passed"));
@@ -82,7 +84,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 		String query = "SELECT id, issuer, title, description, "
 				+ "location, cost, startdate, creationdate, creationtime, "
 				+ "gradetype, eventtype, attachments, urgent, "
-				+ "supervisorapproved, deptheadapproved, bencoapproved, "
+				+ "supervisorapproved, deptheadapproved, bencoapproved, declined, "
 				+ "reasondeclined, grade, passed, awardedamount, awardedreason, finalcheck FROM form WHERE issuer=?";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		BoundStatement bound = session.prepare(s).bind(issuer);
@@ -106,6 +108,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 			form.setSupervisorApproved(row.getBoolean("supervisorapproved"));
 			form.setDeptHeadApproved(row.getBoolean("deptheadapproved"));
 			form.setBenCoApproved(row.getBoolean("bencoapproved"));
+			form.setDeclined(row.getBoolean("declined"));
 			form.setReasonDeclined(row.getString("reasondeclined"));
 			form.setGrade(row.getString("grade"));
 			form.setPassed(row.getBoolean("passed"));
@@ -116,6 +119,16 @@ public class TuitionDAOImpl implements TuitionDAO {
 		});
 		return forms;
 	}
+	
+	@Override
+	public TuitionReimbursementForm getTuitionForm(String issuer, UUID id) {
+		List<TuitionReimbursementForm> forms = getTuitionFormsByEmployee(issuer);
+		TuitionReimbursementForm form = forms.stream()
+				.filter((f) -> f.getId().equals(id))
+				.findFirst()
+				.orElse(null);
+		return form;
+	}
 
 	@Override
 	public void updateTuitionForm(TuitionReimbursementForm form) {
@@ -123,15 +136,15 @@ public class TuitionDAOImpl implements TuitionDAO {
 				+ "cost=?, startdate=?, creationdate=?, creationtime=?, "
 				+ "gradetype=?, eventtype=?, attachments=?, urgent=?, "
 				+ "supervisorapproved=?, deptheadapproved=?, bencoapproved=?, "
-				+ "reasondeclined=?, grade=?, passed=?, awardedamount=?, "
+				+ "declined=?, reasondeclined=?, grade=?, passed=?, awardedamount=?, "
 				+ "awardedreason=?, finalcheck=? WHERE issuer=? AND id=?";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
-		BoundStatement bound = session.prepare(s).bind(form.getTitle(),
-				form.getDescription(), form.getLocation(), form.getCost(), form.getStartDate(), form.getCreationDate(),
-				form.getCreationTime(), form.getGradeType().toString(), form.getEventType().toString(),
-				form.getAttachments(), form.getUrgent(), form.getSupervisorApproved(), form.getDeptHeadApproved(),
-				form.getBenCoApproved(), form.getReasonDeclined(), form.getGrade(), form.getPassed(),
-				form.getAwardedAmount(), form.getAwardedReason(), form.getFinalCheck(), form.getIssuer(), form.getId());
+		BoundStatement bound = session.prepare(s).bind(form.getTitle(), form.getDescription(), form.getLocation(),
+				form.getCost(), form.getStartDate(), form.getCreationDate(), form.getCreationTime(),
+				form.getGradeType().toString(), form.getEventType().toString(), form.getAttachments(), form.getUrgent(),
+				form.getSupervisorApproved(), form.getDeptHeadApproved(), form.getBenCoApproved(), form.getDeclined(),
+				form.getReasonDeclined(), form.getGrade(), form.getPassed(), form.getAwardedAmount(),
+				form.getAwardedReason(), form.getFinalCheck(), form.getIssuer(), form.getId());
 		session.execute(bound);
 	}
 }

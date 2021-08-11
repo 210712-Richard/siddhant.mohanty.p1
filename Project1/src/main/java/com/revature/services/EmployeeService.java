@@ -96,18 +96,21 @@ public interface EmployeeService {
 	 * 
 	 * @param employee The employee whose form is to be declined
 	 * @param id       The UUID of the form to be declined
+	 * @param reason   The reason the form was declined
 	 */
 
-	void declineReimbursement(String employee, UUID id);
+	void declineReimbursement(String employee, UUID id, String reason);
 
 	/**
 	 * Allows an employee to provide a grade upon completion of the event for which
 	 * they are requesting reimbursement
 	 * 
-	 * @param gradeType
-	 * @param gradeValue
+	 * @param employee   Name of employee who is uploading grade
+	 * @param id         ID of form being updated with grade
+	 * @param gradeType  Type of grade being provided
+	 * @param gradeValue Value of the grade
 	 */
 
-	void provideGrade(GradeType gradeType, String gradeValue);
+	void provideGrade(String employee, UUID id, GradeType gradeType, String gradeValue);
 
 }
