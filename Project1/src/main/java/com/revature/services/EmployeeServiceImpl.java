@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.revature.beans.Employee;
 import com.revature.beans.EmployeeType;
 import com.revature.data.DepartmentDAO;
 import com.revature.data.DepartmentDAOImpl;
 import com.revature.data.EmployeeDAO;
 import com.revature.data.EmployeeDAOImpl;
+import com.revature.factory.Log;
 
-
+@Log
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private EmployeeDAO ed = new EmployeeDAOImpl();

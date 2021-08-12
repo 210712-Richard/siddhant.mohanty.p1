@@ -5,12 +5,14 @@ import org.apache.logging.log4j.Logger;
 
 import com.revature.beans.Employee;
 import com.revature.factory.BeanFactory;
+import com.revature.factory.Log;
 import com.revature.services.EmployeeService;
 import com.revature.services.EmployeeServiceImpl;
 import com.revature.services.NotificationService;
 
 import io.javalin.http.Context;
 
+@Log
 public class EmployeeControllerImpl implements EmployeeController {
 
 	private Logger log = LogManager.getLogger(EmployeeServiceImpl.class);

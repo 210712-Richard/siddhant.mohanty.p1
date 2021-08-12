@@ -15,7 +15,9 @@ import com.revature.data.EmployeeDAO;
 import com.revature.data.EmployeeDAOImpl;
 import com.revature.data.TuitionDAO;
 import com.revature.data.TuitionDAOImpl;
+import com.revature.factory.Log;
 
+@Log
 public class TuitionServiceImpl implements TuitionService {
 	
 	public EmployeeDAO ed = new EmployeeDAOImpl();

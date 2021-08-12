@@ -1,20 +1,40 @@
 package com.revature.beans;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Attachment {
 
 	private AttachmentType type;
 	private String URI;
+	private String name;
+	private UUID id;
 
 	public Attachment() {
-		this.type = AttachmentType.PDF;
-		this.URI = "";
+		super();
 	}
 
-	public Attachment(AttachmentType type, String URI) {
+	public Attachment(AttachmentType type, String URI, String name, UUID id) {
 		this.type = type;
 		this.URI = URI;
+		this.name = name;
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
 	}
 
 	public AttachmentType getType() {
@@ -35,7 +55,7 @@ public class Attachment {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(URI, type);
+		return Objects.hash(URI, id, name, type);
 	}
 
 	@Override
@@ -47,11 +67,12 @@ public class Attachment {
 		if (getClass() != obj.getClass())
 			return false;
 		Attachment other = (Attachment) obj;
-		return Objects.equals(URI, other.URI) && type == other.type;
+		return Objects.equals(URI, other.URI) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& type == other.type;
 	}
 
 	@Override
 	public String toString() {
-		return "Attachment [type=" + type + ", URI=" + URI + "]";
+		return "Attachment [type=" + type + ", URI=" + URI + ", name=" + name + ", id=" + id + "]";
 	}
 }

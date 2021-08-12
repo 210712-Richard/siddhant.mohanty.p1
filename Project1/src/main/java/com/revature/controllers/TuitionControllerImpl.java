@@ -10,6 +10,7 @@ import com.revature.beans.EmployeeType;
 import com.revature.beans.GradeType;
 import com.revature.beans.TuitionReimbursementForm;
 import com.revature.factory.BeanFactory;
+import com.revature.factory.Log;
 import com.revature.services.EmployeeService;
 import com.revature.services.EmployeeServiceImpl;
 import com.revature.services.TuitionService;
@@ -17,6 +18,7 @@ import com.revature.services.TuitionServiceImpl;
 
 import io.javalin.http.Context;
 
+@Log
 public class TuitionControllerImpl implements TuitionController {
 
 	private Logger log = LogManager.getLogger(EmployeeServiceImpl.class);

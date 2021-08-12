@@ -5,7 +5,9 @@ import java.util.List;
 import com.revature.beans.Employee;
 import com.revature.data.NotificationDAO;
 import com.revature.data.NotificationDAOImpl;
+import com.revature.factory.Log;
 
+@Log
 public class NotificationServiceImpl implements NotificationService {
 
 	private NotificationDAO nd = new NotificationDAOImpl();

@@ -8,12 +8,14 @@ import com.revature.controllers.EmployeeControllerImpl;
 import com.revature.controllers.TuitionController;
 import com.revature.controllers.TuitionControllerImpl;
 import com.revature.factory.BeanFactory;
+import com.revature.factory.Log;
 import com.revature.services.TuitionService;
 import com.revature.services.TuitionServiceImpl;
 
 import io.javalin.Javalin;
 import io.javalin.plugin.json.JavalinJackson;
 
+@Log
 public class Driver {
 	public static void main(String[] args) {
 		// instantiateDatabase();
