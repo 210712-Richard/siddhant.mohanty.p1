@@ -50,7 +50,7 @@ public class DataBaseCreator {
 		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS form (")
 				.append("id uuid, issuer text, title text, description text, location text, ")
 				.append("cost double, startdate date, creationdate date, creationtime time, ")
-				.append("gradetype text, eventtype text, attachments list<uuid>, ")
+				.append("gradetype text, eventtype text, attachmenturis list<text>, ")
 				.append("urgent boolean, supervisorapproved boolean, deptheadapproved boolean, ")
 				.append("bencoapproved boolean, declined boolean, reasondeclined text, grade text, passed boolean, ")
 				.append("awardedamount double, awardedreason text, finalcheck boolean, ")

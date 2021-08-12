@@ -28,7 +28,7 @@ public interface TuitionService {
 	 */
 
 	void createForm(String issuer, String title, String description, String location, Double cost, LocalDate startDate,
-			GradeType gradeType, ReimbursementEventType eventType, List<Attachment> attachments);
+			GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs);
 
 	/**
 	 * Updates a tuition reimbursement form
@@ -46,7 +46,7 @@ public interface TuitionService {
 	 */
 
 	void updateForm(String issuer, String title, String description, String location, Double cost, LocalDate startDate,
-			GradeType gradeType, ReimbursementEventType eventType, List<Attachment> attachments);
+			GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs);
 
 	/**
 	 * Gets a tuition reimbursement form

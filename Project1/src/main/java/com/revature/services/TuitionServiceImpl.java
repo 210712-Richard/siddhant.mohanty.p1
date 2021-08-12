@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,9 +27,13 @@ public class TuitionServiceImpl implements TuitionService {
 	
 	@Override
 	public void createForm(String issuer, String title, String description, String location, Double cost,
-			LocalDate startDate, GradeType gradeType, ReimbursementEventType eventType, List<Attachment> attachments) {
+			LocalDate startDate, GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs) {
 		TuitionReimbursementForm form = new TuitionReimbursementForm(issuer, title, description, location, cost,
-				startDate, gradeType, eventType, attachments);
+				startDate, gradeType, eventType, attachmentURIs);
+		LocalDate urgencyPeriod = LocalDate.now().plus(Period.of(0, 0, 14));
+		if (startDate.isBefore(urgencyPeriod)) {
+			form.setUrgent(true);
+		}
 		td.addTuitionForm(form);
 	}
 
@@ -104,9 +109,9 @@ public class TuitionServiceImpl implements TuitionService {
 
 	@Override
 	public void updateForm(String issuer, String title, String description, String location, Double cost,
-			LocalDate startDate, GradeType gradeType, ReimbursementEventType eventType, List<Attachment> attachments) {
+			LocalDate startDate, GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs) {
 		TuitionReimbursementForm form = new TuitionReimbursementForm(issuer, title, description, location, cost,
-				startDate, gradeType, eventType, attachments);
+				startDate, gradeType, eventType, attachmentURIs);
 		td.updateTuitionForm(form);
 	}
 

@@ -19,7 +19,7 @@ public class TuitionReimbursementForm {
 	private LocalTime creationTime;
 	private GradeType gradeType;
 	private ReimbursementEventType eventType;
-	private List<Attachment> attachments;
+	private List<String> attachmentURIs;
 	private Boolean urgent;
 	private Boolean supervisorApproved;
 	private Boolean deptHeadApproved;
@@ -42,7 +42,7 @@ public class TuitionReimbursementForm {
 
 	public TuitionReimbursementForm(String issuer, String title, String description, String location, Double cost,
 			LocalDate startDate, GradeType gradeType,
-			ReimbursementEventType eventType, List<Attachment> attachments) {
+			ReimbursementEventType eventType, List<String> attachmentURIs) {
 		this();
 		this.issuer = issuer;
 		this.description = description;
@@ -51,7 +51,7 @@ public class TuitionReimbursementForm {
 		this.startDate = startDate;
 		this.gradeType = gradeType;
 		this.eventType = eventType;
-		this.attachments = attachments;
+		this.attachmentURIs = attachmentURIs;
 	}
 	
 	public Boolean getDeclined() {
@@ -150,12 +150,12 @@ public class TuitionReimbursementForm {
 		this.eventType = eventType;
 	}
 
-	public List<Attachment> getAttachments() {
-		return attachments;
+	public List<String> getAttachmentURIs() {
+		return attachmentURIs;
 	}
 
-	public void setAttachments(List<Attachment> attachments) {
-		this.attachments = attachments;
+	public void setAttachmentURIs(List<String> attachmentURIs) {
+		this.attachmentURIs = attachmentURIs;
 	}
 
 	public Boolean getUrgent() {
@@ -240,7 +240,7 @@ public class TuitionReimbursementForm {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(attachments, awardedAmount, awardedReason, benCoApproved, cost, creationDate, creationTime,
+		return Objects.hash(attachmentURIs, awardedAmount, awardedReason, benCoApproved, cost, creationDate, creationTime,
 				declined, deptHeadApproved, description, eventType, finalCheck, grade, gradeType, id, issuer, location,
 				passed, reasonDeclined, startDate, supervisorApproved, title, urgent);
 	}
@@ -254,7 +254,7 @@ public class TuitionReimbursementForm {
 		if (getClass() != obj.getClass())
 			return false;
 		TuitionReimbursementForm other = (TuitionReimbursementForm) obj;
-		return Objects.equals(attachments, other.attachments) && Objects.equals(awardedAmount, other.awardedAmount)
+		return Objects.equals(attachmentURIs, other.attachmentURIs) && Objects.equals(awardedAmount, other.awardedAmount)
 				&& Objects.equals(awardedReason, other.awardedReason)
 				&& Objects.equals(benCoApproved, other.benCoApproved) && Objects.equals(cost, other.cost)
 				&& Objects.equals(creationDate, other.creationDate) && Objects.equals(creationTime, other.creationTime)
@@ -273,7 +273,7 @@ public class TuitionReimbursementForm {
 		return "TuitionReimbursementForm [id=" + id + ", issuer=" + issuer + ", title=" + title + ", description="
 				+ description + ", location=" + location + ", cost=" + cost + ", startDate=" + startDate
 				+ ", creationDate=" + creationDate + ", creationTime=" + creationTime + ", gradeType=" + gradeType
-				+ ", eventType=" + eventType + ", attachments=" + attachments + ", urgent=" + urgent
+				+ ", eventType=" + eventType + ", attachments=" + attachmentURIs + ", urgent=" + urgent
 				+ ", supervisorApproved=" + supervisorApproved + ", deptHeadApproved=" + deptHeadApproved
 				+ ", benCoApproved=" + benCoApproved + ", declined=" + declined + ", reasonDeclined=" + reasonDeclined
 				+ ", grade=" + grade + ", passed=" + passed + ", awardedAmount=" + awardedAmount + ", awardedReason="

@@ -10,7 +10,6 @@ import com.datastax.oss.driver.api.core.cql.BoundStatement;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.core.cql.SimpleStatementBuilder;
-import com.revature.beans.Attachment;
 import com.revature.beans.GradeType;
 import com.revature.beans.ReimbursementEventType;
 import com.revature.beans.TuitionReimbursementForm;
@@ -24,7 +23,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 	public void addTuitionForm(TuitionReimbursementForm form) {
 		String query = "INSERT INTO form (id, issuer, title, description, "
 				+ "location, cost, startdate, creationdate, creationtime, "
-				+ "gradetype, eventtype, attachments, urgent, "
+				+ "gradetype, eventtype, attachmenturis, urgent, "
 				+ "supervisorapproved, deptheadapproved, bencoapproved, declined, "
 				+ "reasondeclined, grade, passed, awardedamount, awardedreason, finalcheck) VALUES "
 				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -33,7 +32,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 		BoundStatement bound = session.prepare(s).bind(form.getId(), form.getIssuer(), form.getTitle(),
 				form.getDescription(), form.getLocation(), form.getCost(), form.getStartDate(), form.getCreationDate(),
 				form.getCreationTime(), form.getGradeType().toString(), form.getEventType().toString(),
-				form.getAttachments(), form.getUrgent(), form.getSupervisorApproved(), form.getDeptHeadApproved(),
+				form.getAttachmentURIs(), form.getUrgent(), form.getSupervisorApproved(), form.getDeptHeadApproved(),
 				form.getBenCoApproved(), form.getDeclined(), form.getReasonDeclined(), form.getGrade(),
 				form.getPassed(), form.getAwardedAmount(), form.getAwardedReason(), form.getFinalCheck());
 		session.execute(bound);
@@ -43,7 +42,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 	public List<TuitionReimbursementForm> getTuitionForms() {
 		String query = "SELECT id, issuer, title, description, "
 				+ "location, cost, startdate, creationdate, creationtime, "
-				+ "gradetype, eventtype, attachments, urgent, "
+				+ "gradetype, eventtype, attachmenturis, urgent, "
 				+ "supervisorapproved, deptheadapproved, bencoapproved, declined, "
 				+ "reasondeclined, grade, passed, awardedamount, awardedreason, finalcheck FROM form";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
@@ -62,7 +61,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 			form.setCreationTime(row.getLocalTime("creationtime"));
 			form.setGradeType(GradeType.valueOf(row.getString("gradetype")));
 			form.setEventType(ReimbursementEventType.valueOf(row.getString("eventtype")));
-			form.setAttachments(row.getList("attachments", Attachment.class));
+			form.setAttachmentURIs(row.getList("attachmenturis", String.class));
 			form.setUrgent(row.getBoolean("urgent"));
 			form.setSupervisorApproved(row.getBoolean("supervisorapproved"));
 			form.setDeptHeadApproved(row.getBoolean("deptheadapproved"));
@@ -83,7 +82,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 	public List<TuitionReimbursementForm> getTuitionFormsByEmployee(String issuer) {
 		String query = "SELECT id, issuer, title, description, "
 				+ "location, cost, startdate, creationdate, creationtime, "
-				+ "gradetype, eventtype, attachments, urgent, "
+				+ "gradetype, eventtype, attachmenturis, urgent, "
 				+ "supervisorapproved, deptheadapproved, bencoapproved, declined, "
 				+ "reasondeclined, grade, passed, awardedamount, awardedreason, finalcheck FROM form WHERE issuer=?";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
@@ -103,7 +102,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 			form.setCreationTime(row.getLocalTime("creationtime"));
 			form.setGradeType(GradeType.valueOf(row.getString("gradetype")));
 			form.setEventType(ReimbursementEventType.valueOf(row.getString("eventtype")));
-			form.setAttachments(row.getList("attachments", Attachment.class));
+			form.setAttachmentURIs(row.getList("attachmenturis", String.class));
 			form.setUrgent(row.getBoolean("urgent"));
 			form.setSupervisorApproved(row.getBoolean("supervisorapproved"));
 			form.setDeptHeadApproved(row.getBoolean("deptheadapproved"));
@@ -134,14 +133,14 @@ public class TuitionDAOImpl implements TuitionDAO {
 	public void updateTuitionForm(TuitionReimbursementForm form) {
 		String query = "UPDATE form SET title=?, description=?, location=?, "
 				+ "cost=?, startdate=?, creationdate=?, creationtime=?, "
-				+ "gradetype=?, eventtype=?, attachments=?, urgent=?, "
+				+ "gradetype=?, eventtype=?, attachmenturis=?, urgent=?, "
 				+ "supervisorapproved=?, deptheadapproved=?, bencoapproved=?, "
 				+ "declined=?, reasondeclined=?, grade=?, passed=?, awardedamount=?, "
 				+ "awardedreason=?, finalcheck=? WHERE issuer=? AND id=?";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		BoundStatement bound = session.prepare(s).bind(form.getTitle(), form.getDescription(), form.getLocation(),
 				form.getCost(), form.getStartDate(), form.getCreationDate(), form.getCreationTime(),
-				form.getGradeType().toString(), form.getEventType().toString(), form.getAttachments(), form.getUrgent(),
+				form.getGradeType().toString(), form.getEventType().toString(), form.getAttachmentURIs(), form.getUrgent(),
 				form.getSupervisorApproved(), form.getDeptHeadApproved(), form.getBenCoApproved(), form.getDeclined(),
 				form.getReasonDeclined(), form.getGrade(), form.getPassed(), form.getAwardedAmount(),
 				form.getAwardedReason(), form.getFinalCheck(), form.getIssuer(), form.getId());

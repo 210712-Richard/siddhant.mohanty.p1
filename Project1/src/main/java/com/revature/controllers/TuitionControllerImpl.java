@@ -15,12 +15,16 @@ import com.revature.services.EmployeeService;
 import com.revature.services.EmployeeServiceImpl;
 import com.revature.services.TuitionService;
 import com.revature.services.TuitionServiceImpl;
+import com.revature.util.S3Util;
 
 import io.javalin.http.Context;
 
 @Log
 public class TuitionControllerImpl implements TuitionController {
 
+	private static final S3Util S3 = S3Util.getInstance();
+	
+	
 	private Logger log = LogManager.getLogger(EmployeeServiceImpl.class);
 	TuitionService ts = (TuitionService) BeanFactory.getFactory().get(TuitionService.class, TuitionServiceImpl.class);
 	EmployeeService es = (EmployeeService) BeanFactory.getFactory().get(EmployeeService.class,
@@ -35,7 +39,7 @@ public class TuitionControllerImpl implements TuitionController {
 			return;
 		}
 		ts.createForm(form.getIssuer(), form.getTitle(), form.getDescription(), form.getLocation(), form.getCost(),
-				form.getStartDate(), form.getGradeType(), form.getEventType(), form.getAttachments());
+				form.getStartDate(), form.getGradeType(), form.getEventType(), form.getAttachmentURIs());
 		log.trace("Form created: " + form.getTitle() + " by " + form.getIssuer());
 		ctx.html(form.getTitle() + " form created");
 	}
@@ -49,7 +53,7 @@ public class TuitionControllerImpl implements TuitionController {
 			return;
 		}
 		ts.updateForm(form.getIssuer(), form.getTitle(), form.getDescription(), form.getLocation(), form.getCost(),
-				form.getStartDate(), form.getGradeType(), form.getEventType(), form.getAttachments());
+				form.getStartDate(), form.getGradeType(), form.getEventType(), form.getAttachmentURIs());
 		log.trace("Form updated: " + form.getTitle() + " by " + form.getIssuer());
 		ctx.html(form.getTitle() + " form updated");
 	}
