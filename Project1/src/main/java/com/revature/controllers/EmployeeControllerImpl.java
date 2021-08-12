@@ -9,6 +9,7 @@ import com.revature.factory.Log;
 import com.revature.services.EmployeeService;
 import com.revature.services.EmployeeServiceImpl;
 import com.revature.services.NotificationService;
+import com.revature.services.NotificationServiceImpl;
 
 import io.javalin.http.Context;
 
@@ -18,8 +19,8 @@ public class EmployeeControllerImpl implements EmployeeController {
 	private Logger log = LogManager.getLogger(EmployeeServiceImpl.class);
 	private EmployeeService es = (EmployeeService) BeanFactory.getFactory().get(EmployeeService.class,
 			EmployeeServiceImpl.class);
-	private NotificationService ns = (NotificationService) BeanFactory.getFactory().get(EmployeeService.class,
-			EmployeeServiceImpl.class);
+	private NotificationService ns = (NotificationService) BeanFactory.getFactory().get(NotificationService.class,
+			NotificationServiceImpl.class);
 
 	@Override
 	public void login(Context ctx) {

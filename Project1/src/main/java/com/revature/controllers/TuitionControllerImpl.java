@@ -143,7 +143,6 @@ public class TuitionControllerImpl implements TuitionController {
 		}
 		if (loggedEmployee.getType().equals(EmployeeType.REGEMPLOYEE)) {
 			log.warn("Unauthorized attempt to request more information: " + loggedEmployee.getUsername());
-			;
 			ctx.status(401);
 			return;
 		}

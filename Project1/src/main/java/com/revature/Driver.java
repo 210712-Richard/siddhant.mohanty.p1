@@ -19,8 +19,8 @@ import io.javalin.plugin.json.JavalinJackson;
 public class Driver {
 	public static void main(String[] args) {
 		// instantiateDatabase();
-		// launchJavalin();
 		doAutoApprovals();
+		launchJavalin();
 	}
 
 	public static void instantiateDatabase() {
@@ -57,7 +57,7 @@ public class Driver {
 		EmployeeController ec = (EmployeeController) BeanFactory.getFactory().get(EmployeeController.class,
 				EmployeeControllerImpl.class);
 		TuitionController tc = (TuitionController) BeanFactory.getFactory().get(TuitionController.class,
-				TuitionControllerImpl.class); // TODO make tuition controller and add here.
+				TuitionControllerImpl.class); 
 
 		// login
 		app.post("/employees", ec::login);
@@ -92,6 +92,8 @@ public class Driver {
 		// provide a grade for a form
 		app.put("employees/forms/:id/:type/:grade", tc::provideGrade);
 		
+		// ask for more information in a form
+		app.put("employees/administration/forms/:issuer/:id", tc::requestInformation);
 	}
 	
 	public static void doAutoApprovals() {
