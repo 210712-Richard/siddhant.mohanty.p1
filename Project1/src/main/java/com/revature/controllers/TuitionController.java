@@ -19,4 +19,7 @@ public interface TuitionController {
 	
 	void viewMyForms(Context ctx);
 	
+	void requestInformation(Context ctx);
+	
+	void addFile(Context ctx);
 }
