@@ -17,9 +17,8 @@ import com.revature.data.EmployeeDAOImpl;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
-	private Logger log = LogManager.getLogger(EmployeeServiceImpl.class);
-	public EmployeeDAO ed = new EmployeeDAOImpl();
-	public DepartmentDAO dd = new DepartmentDAOImpl();
+	private EmployeeDAO ed = new EmployeeDAOImpl();
+	private DepartmentDAO dd = new DepartmentDAOImpl();
 
 	/**
 	 * login() should only be called if the username and password match a user in
@@ -71,5 +70,4 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee emp = ed.getEmployeeByName(username, password);
 		return emp == null ? false : true;
 	}
-
 }

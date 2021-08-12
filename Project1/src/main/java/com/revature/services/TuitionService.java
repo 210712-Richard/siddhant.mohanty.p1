@@ -8,9 +8,10 @@ import com.revature.beans.Attachment;
 import com.revature.beans.Employee;
 import com.revature.beans.GradeType;
 import com.revature.beans.ReimbursementEventType;
+import com.revature.beans.TuitionReimbursementForm;
 
 public interface TuitionService {
-	
+
 	/**
 	 * Creates a tuition reimbursement form
 	 * 
@@ -28,7 +29,51 @@ public interface TuitionService {
 
 	void createForm(String issuer, String title, String description, String location, Double cost, LocalDate startDate,
 			GradeType gradeType, ReimbursementEventType eventType, List<Attachment> attachments);
-	
+
+	/**
+	 * Updates a tuition reimbursement form
+	 * 
+	 * @param issuer      The username of the employee whose form is being updated
+	 * @param title       The title of the form
+	 * @param description The description of the event that reimbursement is being
+	 *                    requested for
+	 * @param location    The location of the event
+	 * @param cost        The cost of the event
+	 * @param startDate   The starting date of the event
+	 * @param gradeType   The type of grade that the event will be using
+	 * @param eventType   The type of event
+	 * @param attachments Any attachments
+	 */
+
+	void updateForm(String issuer, String title, String description, String location, Double cost, LocalDate startDate,
+			GradeType gradeType, ReimbursementEventType eventType, List<Attachment> attachments);
+
+	/**
+	 * Gets a tuition reimbursement form
+	 * 
+	 * @param issuer The employee who issued the form
+	 * @param id     The UUID of the form
+	 */
+
+	TuitionReimbursementForm getForm(Employee issuer, UUID id);
+
+	/**
+	 * Returns all the forms a particular employee has submitted
+	 * 
+	 * @param issuer The employee
+	 * @return All of that employees forms
+	 */
+
+	List<TuitionReimbursementForm> getMyForms(Employee issuer);
+
+	/**
+	 * Displays ALL pending forms
+	 * 
+	 * @return the list of all forms
+	 */
+
+	List<TuitionReimbursementForm> getForms();
+
 	/**
 	 * Approves a Tuition Reimbursement Form
 	 * 
@@ -36,6 +81,8 @@ public interface TuitionService {
 	 * @param employee The name of the employee whose form is to be approved
 	 * @param id       The UUID of the form (inside the list of forms from the same
 	 *                 employee) to be approved
+	 * 
+	 * @return the form
 	 */
 
 	void approveReimbursement(Employee approver, String employee, UUID id);
@@ -61,4 +108,13 @@ public interface TuitionService {
 	 */
 
 	void provideGrade(String employee, UUID id, GradeType gradeType, String gradeValue);
+
+	/**
+	 * Auto approves a form if enough time has passed
+	 * 
+	 * @param employee The employee whose form is to be approved
+	 * @param id       The id of the form
+	 */
+
+	void autoApprove(String employee, UUID id);
 }

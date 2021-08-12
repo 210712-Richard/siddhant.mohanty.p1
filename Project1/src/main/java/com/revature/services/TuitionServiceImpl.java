@@ -68,4 +68,32 @@ public class TuitionServiceImpl implements TuitionService {
 		form.setGradeType(gradeType);
 		form.setGrade(gradeValue);
 	}
+
+	@Override
+	public void updateForm(String issuer, String title, String description, String location, Double cost,
+			LocalDate startDate, GradeType gradeType, ReimbursementEventType eventType, List<Attachment> attachments) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void autoApprove(String employee, UUID id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TuitionReimbursementForm getForm(Employee issuer, UUID id) {
+		return td.getTuitionForm(issuer.getUsername(), id);
+	}
+
+	@Override
+	public List<TuitionReimbursementForm> getForms() {
+		return td.getTuitionForms();
+	}
+
+	@Override
+	public List<TuitionReimbursementForm> getMyForms(Employee issuer) {
+		return td.getTuitionFormsByEmployee(issuer.getUsername());
+	}
 }
