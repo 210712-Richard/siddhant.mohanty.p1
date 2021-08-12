@@ -70,4 +70,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee emp = ed.getEmployeeByName(username, password);
 		return emp == null ? false : true;
 	}
+
+	@Override
+	public Employee viewEmployee(String username) {
+		return ed.getEmployees().stream()
+				.filter((e) -> e.getUsername().equals(username))
+				.findFirst()
+				.orElse(null);
+	}
+
+	@Override
+	public List<Employee> viewEmployees() {
+		return ed.getEmployees();
+	}
 }

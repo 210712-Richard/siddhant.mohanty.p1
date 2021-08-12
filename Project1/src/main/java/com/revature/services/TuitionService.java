@@ -90,12 +90,13 @@ public interface TuitionService {
 	/**
 	 * Declines approval for a Tuition Reimbursement Form
 	 * 
+	 * @param decliner The employee who is declining the form
 	 * @param employee The employee whose form is to be declined
 	 * @param id       The UUID of the form to be declined
 	 * @param reason   The reason the form was declined
 	 */
 
-	void declineReimbursement(String employee, UUID id, String reason);
+	void declineReimbursement(Employee decliner, String employee, UUID id, String reason);
 
 	/**
 	 * Allows an employee to provide a grade upon completion of the event for which

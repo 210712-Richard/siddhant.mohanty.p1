@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.List;
+
 import com.revature.beans.Employee;
 
 /**
@@ -54,5 +56,21 @@ public interface EmployeeService {
 
 	boolean checkAvailability(String username, String password);
 
+	/**
+	 * Gets an Employee object
+	 * 
+	 * @param username username of employee
+	 * @return the employee
+	 */
+
+	Employee viewEmployee(String username);
+	
+	/**
+	 * Gets the entire list of Employees
+	 * 
+	 * @return the entire list of employees
+	 */
+	
+	List<Employee> viewEmployees();
 
 }
