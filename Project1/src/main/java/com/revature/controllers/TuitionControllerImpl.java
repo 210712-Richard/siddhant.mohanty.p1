@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.revature.beans.Employee;
+import com.revature.beans.EmployeeType;
 import com.revature.beans.GradeType;
 import com.revature.beans.TuitionReimbursementForm;
 import com.revature.factory.BeanFactory;
@@ -54,6 +55,10 @@ public class TuitionControllerImpl implements TuitionController {
 	@Override
 	public void approveReimbursement(Context ctx) {
 		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		if (loggedEmployee == null) {
+			ctx.status(403);
+			return;
+		}
 		String issuer = ctx.pathParam("formissuer");
 		UUID id = UUID.fromString(ctx.pathParam("id"));
 		ts.approveReimbursement(loggedEmployee, issuer, id);
@@ -62,6 +67,10 @@ public class TuitionControllerImpl implements TuitionController {
 	@Override
 	public void declineReimbursement(Context ctx) {
 		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		if (loggedEmployee == null) {
+			ctx.status(403);
+			return;
+		}
 		String issuer = ctx.pathParam("formissuer");
 		UUID id = UUID.fromString(ctx.pathParam("id"));
 		String reason = ctx.bodyAsClass(String.class);
@@ -71,6 +80,10 @@ public class TuitionControllerImpl implements TuitionController {
 	@Override
 	public void provideGrade(Context ctx) {
 		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		if (loggedEmployee == null) {
+			ctx.status(403);
+			return;
+		}
 		UUID id = UUID.fromString(ctx.pathParam("id"));
 		GradeType type = GradeType.valueOf(ctx.pathParam("type"));
 		String grade = ctx.pathParam("grade");
@@ -78,20 +91,28 @@ public class TuitionControllerImpl implements TuitionController {
 	}
 
 	@Override
-	public void autoApprove(Context ctx) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void viewAllForms(Context ctx) {
-		ts.getForms();
+		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		if (loggedEmployee == null) {
+			ctx.status(403);
+			return;
+		}
+		if (loggedEmployee.getType().equals(EmployeeType.REGEMPLOYEE)) {
+			log.warn("Unauthorized attempt to view all forms: " + loggedEmployee.getUsername());;
+			ctx.status(401);
+			return;
+		}
+		ctx.json(ts.getForms());
 	}
 
 	@Override
 	public void viewMyForms(Context ctx) {
-		// TODO Auto-generated method stub
-
+		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		if (loggedEmployee == null) {
+			ctx.status(403);
+			return;
+		}
+		ts.getMyForms(loggedEmployee);
 	}
 
 }

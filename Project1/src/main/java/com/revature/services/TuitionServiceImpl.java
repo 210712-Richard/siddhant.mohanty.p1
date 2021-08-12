@@ -109,9 +109,16 @@ public class TuitionServiceImpl implements TuitionService {
 	}
 
 	@Override
-	public void autoApprove(String employee, UUID id) {
-		// TODO Auto-generated method stub
-		
+	public void autoApprove() {
+		for (TuitionReimbursementForm form : td.getTuitionForms()) {
+			if (form.getSupervisorApproved().equals(false)) {
+				form.setSupervisorApproved(true);
+				return;
+			} else if (form.getSupervisorApproved().equals(true) && form.getDeptHeadApproved().equals(false)) {
+				form.setDeptHeadApproved(true);
+				return;
+			}
+		}
 	}
 
 	@Override

@@ -14,9 +14,7 @@ public interface TuitionController {
 	void declineReimbursement(Context ctx);
 	
 	void provideGrade(Context ctx);
-	
-	void autoApprove(Context ctx);
-	
+
 	void viewAllForms(Context ctx);
 	
 	void viewMyForms(Context ctx);

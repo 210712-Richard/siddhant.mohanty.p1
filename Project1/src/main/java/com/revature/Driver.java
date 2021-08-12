@@ -8,14 +8,17 @@ import com.revature.controllers.EmployeeControllerImpl;
 import com.revature.controllers.TuitionController;
 import com.revature.controllers.TuitionControllerImpl;
 import com.revature.factory.BeanFactory;
+import com.revature.services.TuitionService;
+import com.revature.services.TuitionServiceImpl;
 
 import io.javalin.Javalin;
 import io.javalin.plugin.json.JavalinJackson;
 
 public class Driver {
 	public static void main(String[] args) {
-		instantiateDatabase();
+		// instantiateDatabase();
 		// launchJavalin();
+		doAutoApprovals();
 	}
 
 	public static void instantiateDatabase() {
@@ -41,7 +44,7 @@ public class Driver {
 		System.exit(0);
 	}
 
-	public static void launchjavalin() {
+	public static void launchJavalin() {
 		ObjectMapper jackson = new ObjectMapper();
 		jackson.registerModule(new JavaTimeModule());
 		jackson.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -85,7 +88,25 @@ public class Driver {
 		app.get("employees/forms", tc::viewMyForms);
 		
 		// provide a grade for a form
-		app.put("employees/review/:type/:grade", tc::provideGrade);
+		app.put("employees/forms/:id/:type/:grade", tc::provideGrade);
 		
+	}
+	
+	public static void doAutoApprovals() {
+		Runnable autoApproval = () -> {
+			TuitionService ts = (TuitionService) BeanFactory.getFactory().get(TuitionService.class, TuitionServiceImpl.class);
+		
+			while(true) {
+				ts.autoApprove();
+				try {
+					Thread.sleep(30000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		Thread thread = new Thread(autoApproval);
+		thread.start();
 	}
 }

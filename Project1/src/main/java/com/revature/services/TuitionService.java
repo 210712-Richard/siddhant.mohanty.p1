@@ -111,11 +111,11 @@ public interface TuitionService {
 	void provideGrade(String employee, UUID id, GradeType gradeType, String gradeValue);
 
 	/**
-	 * Auto approves a form if enough time has passed
+	 * Checks the db for forms that do not have either 
+	 * directSupervisorApproved or deptHeadApproved set to true, and sets them 
+	 * to true 
 	 * 
-	 * @param employee The employee whose form is to be approved
-	 * @param id       The id of the form
 	 */
 
-	void autoApprove(String employee, UUID id);
+	void autoApprove();
 }
