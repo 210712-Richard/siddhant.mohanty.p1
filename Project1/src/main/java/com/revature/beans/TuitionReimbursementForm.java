@@ -38,6 +38,9 @@ public class TuitionReimbursementForm {
 		this.creationTime = LocalTime.now();
 		this.urgent = false;
 		this.declined = false;
+		this.supervisorApproved = false;
+		this.deptHeadApproved = false;
+		this.benCoApproved = false;
 	}
 
 	public TuitionReimbursementForm(String issuer, String title, String description, String location, Double cost,

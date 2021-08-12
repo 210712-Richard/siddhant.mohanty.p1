@@ -34,7 +34,7 @@ public class Driver {
 		DataBaseCreator.createTables();
 		System.out.println("Tables created");
 		try {
-			Thread.sleep(50000); // wait 50 seconds
+			Thread.sleep(50000); // wait 60 seconds
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,13 +99,13 @@ public class Driver {
 			TuitionService ts = (TuitionService) BeanFactory.getFactory().get(TuitionService.class, TuitionServiceImpl.class);
 		
 			while(true) {
-				ts.autoApprove();
 				try {
 					Thread.sleep(30000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				ts.autoApprove();
 			}
 		};
 		Thread thread = new Thread(autoApproval);

@@ -5,7 +5,6 @@ import java.time.Period;
 import java.util.List;
 import java.util.UUID;
 
-import com.revature.beans.Attachment;
 import com.revature.beans.Employee;
 import com.revature.beans.GradeType;
 import com.revature.beans.ReimbursementEventType;
@@ -120,9 +119,11 @@ public class TuitionServiceImpl implements TuitionService {
 		for (TuitionReimbursementForm form : td.getTuitionForms()) {
 			if (form.getSupervisorApproved().equals(false)) {
 				form.setSupervisorApproved(true);
+				td.addTuitionForm(form);
 				return;
 			} else if (form.getSupervisorApproved().equals(true) && form.getDeptHeadApproved().equals(false)) {
 				form.setDeptHeadApproved(true);
+				td.addTuitionForm(form);
 				return;
 			}
 		}
