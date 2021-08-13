@@ -25,9 +25,9 @@ public class TuitionServiceImpl implements TuitionService {
 	public DepartmentDAO dd = new DepartmentDAOImpl();
 	
 	@Override
-	public void createForm(String issuer, String title, String description, String location, Double cost,
+	public void createForm(UUID id, String issuer, String title, String description, String location, Double cost,
 			LocalDate startDate, GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs) {
-		TuitionReimbursementForm form = new TuitionReimbursementForm(issuer, title, description, location, cost,
+		TuitionReimbursementForm form = new TuitionReimbursementForm(id, issuer, title, description, location, cost,
 				startDate, gradeType, eventType, attachmentURIs);
 		LocalDate urgencyPeriod = LocalDate.now().plus(Period.of(0, 0, 14));
 		if (startDate.isBefore(urgencyPeriod)) {

@@ -48,7 +48,7 @@ public class TuitionControllerImpl implements TuitionController {
 		}
 		form.setIssuer(loggedEmployee.getUsername());
 		List<String> attachmentURIs = new ArrayList<String>();
-		ts.createForm(form.getIssuer(), form.getTitle(), form.getDescription(), form.getLocation(), form.getCost(),
+		ts.createForm(form.getId(), form.getIssuer(), form.getTitle(), form.getDescription(), form.getLocation(), form.getCost(),
 				form.getStartDate(), form.getGradeType(), form.getEventType(), attachmentURIs);
 		ns.notify(loggedEmployee, "You created a form with title: " + form.getTitle());
 		log.trace("Form created: " + form.getTitle() + " by " + form.getIssuer());

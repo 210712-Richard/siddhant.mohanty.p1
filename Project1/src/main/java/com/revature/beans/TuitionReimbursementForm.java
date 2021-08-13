@@ -43,10 +43,11 @@ public class TuitionReimbursementForm {
 		this.benCoApproved = false;
 	}
 
-	public TuitionReimbursementForm(String issuer, String title, String description, String location, Double cost,
+	public TuitionReimbursementForm(UUID id, String issuer, String title, String description, String location, Double cost,
 			LocalDate startDate, GradeType gradeType,
 			ReimbursementEventType eventType, List<String> attachmentURIs) {
 		this();
+		this.id = id;
 		this.issuer = issuer;
 		this.description = description;
 		this.location = location;

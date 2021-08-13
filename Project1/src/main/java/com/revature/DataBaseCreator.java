@@ -1,6 +1,7 @@
 package com.revature;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.revature.beans.Department;
 import com.revature.beans.Employee;
@@ -85,7 +86,8 @@ public class DataBaseCreator {
 	}
 
 	public static void populateFormTable() {
-		TuitionReimbursementForm form = new TuitionReimbursementForm("boss_man", "FirstForm", "The first form",
+		UUID id = UUID.randomUUID();
+		TuitionReimbursementForm form = new TuitionReimbursementForm(id, "boss_man", "FirstForm", "The first form",
 				"Los Angeles", 100.0, LocalDate.of(2021, 10, 30), GradeType.LETTER, ReimbursementEventType.CERT, null);
 		td.addTuitionForm(form);
 	}

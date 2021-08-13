@@ -15,6 +15,7 @@ public interface TuitionService {
 	/**
 	 * Creates a tuition reimbursement form
 	 * 
+	 * @param id          The UUID of the form
 	 * @param issuer      The username of the employee issuing the form
 	 * @param title       The title of the form
 	 * @param description The description of the event that reimbursement is being
@@ -27,8 +28,8 @@ public interface TuitionService {
 	 * @param attachments Any attachments
 	 */
 
-	void createForm(String issuer, String title, String description, String location, Double cost, LocalDate startDate,
-			GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs);
+	void createForm(UUID id, String issuer, String title, String description, String location, Double cost,
+			LocalDate startDate, GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs);
 
 	/**
 	 * Updates a tuition reimbursement form
@@ -101,9 +102,8 @@ public interface TuitionService {
 	void provideGrade(String employee, UUID id, GradeType gradeType, String gradeValue);
 
 	/**
-	 * Checks the db for forms that do not have either 
-	 * directSupervisorApproved or deptHeadApproved set to true, and sets them 
-	 * to true 
+	 * Checks the db for forms that do not have either directSupervisorApproved or
+	 * deptHeadApproved set to true, and sets them to true
 	 * 
 	 */
 
