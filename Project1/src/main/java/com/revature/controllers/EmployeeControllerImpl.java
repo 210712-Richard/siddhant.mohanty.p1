@@ -94,8 +94,10 @@ public class EmployeeControllerImpl implements EmployeeController {
 	@Override
 	public void checkFunds(Context ctx) {
 		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
-		ctx.html("Remaining funds: "
-				+ (1000 - loggedEmployee.getPendingReimbursement() - loggedEmployee.getAwardedReimbursement()));
-		ctx.json(loggedEmployee);
+		Double remainingreimbursement = 1000 - loggedEmployee.getPendingReimbursement()
+				- loggedEmployee.getAwardedReimbursement();
+		ctx.html("Pending Funds: " + loggedEmployee.getPendingReimbursement() + "\r\n" + "Awarded Funds: "
+				+ loggedEmployee.getAwardedReimbursement() + "\r\n" + "Remaining Reimbursement: "
+				+ remainingreimbursement);
 	}
 }

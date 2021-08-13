@@ -18,7 +18,7 @@ import io.javalin.plugin.json.JavalinJackson;
 @Log
 public class Driver {
 	public static void main(String[] args) {
-		// instantiateDatabase();
+		//instantiateDatabase();
 		doAutoApprovals();
 		launchJavalin();
 	}

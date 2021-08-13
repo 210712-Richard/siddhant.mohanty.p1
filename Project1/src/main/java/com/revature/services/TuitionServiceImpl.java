@@ -36,7 +36,7 @@ public class TuitionServiceImpl implements TuitionService {
 		}
 		Employee employee = es.viewEmployee(issuer);
 		Double currentPending = employee.getPendingReimbursement();
-		employee.setPendingReimbursement(currentPending + cost);
+		employee.setPendingReimbursement(currentPending + cost * eventType.getReimburseMultiplier());
 		ed.updateEmployee(employee);
 		td.addTuitionForm(form);
 	}
@@ -129,8 +129,8 @@ public class TuitionServiceImpl implements TuitionService {
 		Employee issuer = es.viewEmployee(employee);
 		Double currentPending = issuer.getPendingReimbursement();
 		Double currentAwarded = issuer.getAwardedReimbursement();
-		issuer.setPendingReimbursement(currentPending - form.getCost());
-		issuer.setAwardedReimbursement(currentAwarded + form.getCost()); 
+		issuer.setPendingReimbursement(currentPending - form.getCost() * form.getEventType().getReimburseMultiplier());
+		issuer.setAwardedReimbursement(currentAwarded + form.getCost() * form.getEventType().getReimburseMultiplier()); 
 		ed.updateEmployee(issuer);
 	}
 
