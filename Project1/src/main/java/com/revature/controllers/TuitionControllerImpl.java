@@ -138,7 +138,7 @@ public class TuitionControllerImpl implements TuitionController {
 			ctx.status(403);
 			return;
 		}
-		ts.getMyForms(loggedEmployee);
+		ctx.json(ts.getMyForms(loggedEmployee));
 	}
 
 	@Override
@@ -179,5 +179,6 @@ public class TuitionControllerImpl implements TuitionController {
 		String attachmentURI = id + "/attachments/" + form.getAttachmentURIs().size() + attachmentType;
 		S3.uploadToBucket(attachmentURI, ctx.bodyAsBytes());
 		form.getAttachmentURIs().add(attachmentURI);
+		ts.updateForm(form);
 	}
 }

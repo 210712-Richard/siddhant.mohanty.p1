@@ -133,8 +133,8 @@ public class TuitionDAOImpl implements TuitionDAO {
 				+ "gradetype=?, eventtype=?, attachmenturis=?, urgent=?, "
 				+ "supervisorapproved=?, deptheadapproved=?, bencoapproved=?, "
 				+ "declined=?, reasondeclined=?, grade=?, passed=?, awardedamount=?, "
-				+ "awardedreason=?, finalcheck=? WHERE issuer=? AND id=? ALLOW FILTERING";
-		SimpleStatement s = new SimpleStatementBuilder(query).build();
+				+ "awardedreason=?, finalcheck=? WHERE issuer=? AND id=?";
+		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM).build();
 		BoundStatement bound = session.prepare(s).bind(form.getTitle(), form.getDescription(), form.getLocation(),
 				form.getCost(), form.getStartDate(), form.getCreationDate(), form.getCreationTime(),
 				form.getGradeType().toString(), form.getEventType().toString(), form.getAttachmentURIs(),

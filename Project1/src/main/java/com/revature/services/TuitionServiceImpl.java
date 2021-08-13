@@ -51,6 +51,7 @@ public class TuitionServiceImpl implements TuitionService {
 				if (emp.getSupervisorName().equals(approver.getUsername())) {
 					form.setSupervisorApproved(true);
 					form.setDeptHeadApproved(true);
+					td.updateTuitionForm(form);
 				} else if (dd.getDepartmentByName(emp.getDept()).getDeptHeadUsername().equals(approver.getUsername())) {
 					form.setDeptHeadApproved(true);
 				} else {
@@ -58,12 +59,14 @@ public class TuitionServiceImpl implements TuitionService {
 				}
 			} else if (emp.getSupervisorName().equals(approver.getUsername())){
 				form.setSupervisorApproved(true);
+				td.updateTuitionForm(form);
 			} else {
 				return;
 			}
 			break;
 		case BENCO:
 			form.setBenCoApproved(true);
+			td.updateTuitionForm(form);
 			break;
 		}
 	}
@@ -82,19 +85,23 @@ public class TuitionServiceImpl implements TuitionService {
 			if (decliner.getIsDeptHead()) {
 				if (emp.getSupervisorName().equals(decliner.getUsername())) {
 					form.setDeclined(true);
+					td.updateTuitionForm(form);
 				} else if (dd.getDepartmentByName(emp.getDept()).getDeptHeadUsername().equals(decliner.getUsername())) {
 					form.setDeclined(true);
+					td.updateTuitionForm(form);
 				} else {
 					return;
 				}
 			} else if (emp.getSupervisorName().equals(decliner.getUsername())){
 				form.setDeclined(true);
+				td.updateTuitionForm(form);
 			} else {
 				return;
 			}
 			break;
 		case BENCO:
 			form.setDeclined(true);
+			td.updateTuitionForm(form);
 			break;
 		}
 	}
@@ -116,11 +123,11 @@ public class TuitionServiceImpl implements TuitionService {
 		for (TuitionReimbursementForm form : td.getTuitionForms()) {
 			if (form.getSupervisorApproved().equals(false)) {
 				form.setSupervisorApproved(true);
-				td.addTuitionForm(form);
+				td.updateTuitionForm(form);
 				return;
 			} else if (form.getSupervisorApproved().equals(true) && form.getDeptHeadApproved().equals(false)) {
 				form.setDeptHeadApproved(true);
-				td.addTuitionForm(form);
+				td.updateTuitionForm(form);
 				return;
 			}
 		}
