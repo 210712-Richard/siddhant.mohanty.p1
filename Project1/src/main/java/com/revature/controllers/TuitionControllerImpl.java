@@ -179,6 +179,5 @@ public class TuitionControllerImpl implements TuitionController {
 		String attachmentURI = id + "/attachments/" + form.getAttachmentURIs().size() + attachmentType;
 		S3.uploadToBucket(attachmentURI, ctx.bodyAsBytes());
 		form.getAttachmentURIs().add(attachmentURI);
-		
 	}
 }

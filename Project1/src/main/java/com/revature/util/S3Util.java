@@ -13,7 +13,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 public class S3Util {
 	public static final Region region = Region.US_EAST_1; // whatever your region is
-	public static final String BUCKET_NAME= "project1";
+	public static final String BUCKET_NAME= "siddmohanty-project1-revature1";
 	
 	private static Logger log = LogManager.getLogger(S3Util.class);
 	
