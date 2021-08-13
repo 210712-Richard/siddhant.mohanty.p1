@@ -123,12 +123,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		String query = "UPDATE employee SET email=?, firstname=?, lastname=?, "
 				+ "supervisorname=?, dept=?, isdepthead=?, pendingreimbursement=?, "
 				+ "awardedreimbursement=?, type=?, forms=?, reviewforms=? "
-				+ "WHERE username=? AND password=? ALLOW FILTERING;";
+				+ "WHERE username=? AND password=?";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
 				.build();
 		BoundStatement bound = session.prepare(s).bind(e.getEmail(), e.getFirstName(), e.getLastName(),
 				e.getSupervisorName(), e.getDept(), e.getIsDeptHead(), e.getPendingReimbursement(),
-				e.getAwardedReimbursement(), e.getType(), e.getForms(), e.getReviewForms(), e.getUsername(),
+				e.getAwardedReimbursement(), e.getType().toString(), e.getForms(), e.getReviewForms(), e.getUsername(),
 				e.getPassword());
 		session.execute(bound);
 	}

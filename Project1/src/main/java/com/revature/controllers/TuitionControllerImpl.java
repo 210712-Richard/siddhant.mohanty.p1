@@ -181,4 +181,20 @@ public class TuitionControllerImpl implements TuitionController {
 		form.getAttachmentURIs().add(attachmentURI);
 		ts.updateForm(form);
 	}
+
+	@Override
+	public void deleteForm(Context ctx) {
+		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		String issuer = ctx.pathParam("issuer");
+		UUID id = UUID.fromString(ctx.pathParam("id"));
+		if (loggedEmployee == null || !loggedEmployee.getUsername().equals(issuer)) {
+			ctx.status(403);
+			return;
+		}
+		TuitionReimbursementForm deleteForm = ts.getForm(loggedEmployee, id);
+		ns.notify(loggedEmployee, "You deleted the form with title: " + deleteForm.getTitle());
+		log.trace("Form deleted: " + deleteForm.getTitle() + " by " + deleteForm.getIssuer());
+		ctx.html(deleteForm.getTitle() + " form updated");
+		ts.deleteForm(deleteForm);
+	}
 }

@@ -45,7 +45,7 @@ public class DataBaseCreator {
 				.append("username text, password text, email text, firstname text, lastname text, ")
 				.append("supervisorname text, dept text, isdepthead boolean, pendingreimbursement double, ")
 				.append("awardedreimbursement double, type text, forms list<UUID>, reviewforms list<UUID>, ")
-				.append("primary key(username, firstname));");
+				.append("primary key(username, password));");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
 
 		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS form (")
@@ -59,7 +59,7 @@ public class DataBaseCreator {
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
 
 		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS notifications (")
-				.append("recipient text, message text, primary key (recipient)); ");
+				.append("recipient text, messages list<text>, primary key (recipient)); ");
 		CassandraUtil.getInstance().getSession().execute(sb.toString());
 
 		sb = new StringBuilder("CREATE TABLE IF NOT EXISTS departments (")
@@ -93,7 +93,7 @@ public class DataBaseCreator {
 	}
 
 	public static void populateNotificationsTable() {
-		nd.addNotification("boss_man", "You did it!");
+		nd.createWelcomeNotification("boss_man");
 	}
 
 	public static void populateDepartmentsTable() {

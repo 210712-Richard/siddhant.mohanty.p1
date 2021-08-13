@@ -14,12 +14,14 @@ public class NotificationServiceImpl implements NotificationService {
 	
 	@Override
 	public void notify(Employee emp, String message) {
-		nd.addNotification(emp.getUsername(), message);
+		nd.updateNotifications(emp.getUsername(), message);
 	}
 
 	@Override
 	public List<String> checkNotifications(Employee emp) {
-		return nd.getNotifications(emp.getUsername());
+		List<String> notifications = nd.getNotifications(emp.getUsername());
+		nd.clearNotifications(emp.getUsername());
+		return notifications;
 	}
 
 }

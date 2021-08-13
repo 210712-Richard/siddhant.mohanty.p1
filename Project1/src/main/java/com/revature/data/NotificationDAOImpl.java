@@ -16,26 +16,51 @@ public class NotificationDAOImpl implements NotificationDAO {
 	private CqlSession session = CassandraUtil.getInstance().getSession();
 	
 	@Override
-	public void addNotification(String recipient, String message) {
-		String query = "Insert into notifications (recipient, message) values (?, ?);";
+	public void updateNotifications(String recipient, String message) {
+		List<String> currentNotifications = getNotifications(recipient);
+		currentNotifications.add(message);
+		String query = "Insert into notifications (recipient, messages) values (?, ?);";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
 				.build();
-		BoundStatement bound = session.prepare(s).bind(recipient, message);
+		BoundStatement bound = session.prepare(s).bind(recipient, currentNotifications);
 		session.execute(bound);
 	}
 
 	@Override
 	public List<String> getNotifications(String recipient) {
-		List<String> notifications = new ArrayList<String>(); 
-		String query = "Select message from notifications where recipient=?";
+		String query = "Select messages from notifications where recipient=?";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
 				.build();
 		BoundStatement bound = session.prepare(s).bind(recipient);
 		ResultSet rs = session.execute(bound);
+		List<String> notifications = new ArrayList<String>();
 		rs.forEach(row -> {
-			notifications.add(row.getString("message"));
+			List<String> notificationDB = row.getList("messages", String.class);
+			for (String x : notificationDB) {
+				notifications.add(x);
+			}
 		});
 		return notifications;
+	}
+
+	@Override
+	public void clearNotifications(String recipient) {
+		String query = "DELETE messages FROM notifications WHERE recipient=?";
+		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
+				.build();
+		BoundStatement bound = session.prepare(s).bind(recipient);
+		session.execute(bound);
+	}
+
+	@Override
+	public void createWelcomeNotification(String recipient) {
+		String query = "Insert into notifications (recipient, messages) values (?, ?);";
+		List<String> welcomeMessage = new ArrayList<String>();
+		welcomeMessage.add("Welcome!");
+		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
+				.build();
+		BoundStatement bound = session.prepare(s).bind(recipient, welcomeMessage);
+		session.execute(bound);
 	}
 
 }

@@ -49,5 +49,7 @@ public interface TuitionDAO {
 	 */
 
 	void updateTuitionForm(TuitionReimbursementForm form);
+	
+	void deleteTuitionForm(TuitionReimbursementForm form);
 
 }

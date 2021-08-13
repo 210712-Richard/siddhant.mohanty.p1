@@ -9,6 +9,8 @@ public interface TuitionController {
 	// General purpose update for the sake of changing descriptions, titles, etc
 	void updateForm(Context ctx);
 	
+	void deleteForm(Context ctx);
+	
 	void approveReimbursement(Context ctx);
 	
 	void declineReimbursement(Context ctx);

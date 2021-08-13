@@ -78,28 +78,31 @@ public class Driver {
 		app.post("/employees/newform", tc::createForm);
 
 		// update form
-		app.put("/employees/updateform", tc::updateForm);
+		app.put("/employees/updateform/:issuer/:id", tc::updateForm);
+		
+		// delete form
+		app.put("/employees/deleteform/:issuer/:id", tc::deleteForm);
 		
 		// add attachment to a form
 		app.put("/employees/addattachment/:issuer/:id", tc::addAttachment);
 
 		// approve form
-		app.put("employees/administration/approval/:formissuer/:id", tc::approveReimbursement);
+		app.put("/employees/administration/approval/:formissuer/:id", tc::approveReimbursement);
 
 		// decline form
-		app.put("employees/administration/declination/:formissuer/:id", tc::declineReimbursement);
+		app.put("/employees/administration/declination/:formissuer/:id", tc::declineReimbursement);
 		
 		// view all forms in the entire system
-		app.get("employees/administration/forms/view", tc::viewAllForms);
+		app.get("/employees/administration/forms/view", tc::viewAllForms);
 		
 		// view all forms of the currently logged in employee
-		app.get("employees/forms/view", tc::viewMyForms);
+		app.get("/employees/forms/view", tc::viewMyForms);
 		
 		// provide a grade for a form
-		app.put("employees/forms/:id/:type/:grade", tc::provideGrade);
+		app.put("/employees/forms/:id/:type/:grade", tc::provideGrade);
 		
 		// ask for more information in a form
-		app.put("employees/administration/forms/:issuer/:id", tc::requestInformation);
+		app.put("/employees/administration/forms/:issuer/:id", tc::requestInformation);
 	}
 	
 	public static void doAutoApprovals() {

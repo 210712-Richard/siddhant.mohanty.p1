@@ -31,6 +31,8 @@ public interface TuitionService {
 	void createForm(UUID id, String issuer, String title, String description, String location, Double cost,
 			LocalDate startDate, GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs);
 
+	void deleteForm(TuitionReimbursementForm form);
+	
 	/**
 	 * Updates a tuition reimbursement form
 	 * 

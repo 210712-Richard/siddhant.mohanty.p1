@@ -49,6 +49,7 @@ public class TuitionReimbursementForm {
 		this();
 		this.id = id;
 		this.issuer = issuer;
+		this.title = title;
 		this.description = description;
 		this.location = location;
 		this.cost = cost;

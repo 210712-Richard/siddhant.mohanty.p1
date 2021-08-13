@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface NotificationDAO {
 	
+	void createWelcomeNotification(String recipient);
+	
 	/**
 	 * Adds a notification to the database
 	 * 
@@ -11,7 +13,9 @@ public interface NotificationDAO {
 	 * @param message The actual body of the notification
 	 */
 	
-	void addNotification(String recipient, String message);
+	void updateNotifications(String recipient, String message);
+	
+	void clearNotifications(String recipient);
 	
 	/**
 	 * Gets all the notifications that an employee has

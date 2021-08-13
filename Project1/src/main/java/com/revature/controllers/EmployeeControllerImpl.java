@@ -90,4 +90,10 @@ public class EmployeeControllerImpl implements EmployeeController {
 		}
 		ctx.json(es.viewEmployees());
 	}
+
+	@Override
+	public void viewRemainingReimbursement(Context ctx) {
+		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		ctx.json(1000 - loggedEmployee.getPendingReimbursement() - loggedEmployee.getAwardedReimbursement());
+	}
 }

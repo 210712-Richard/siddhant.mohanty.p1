@@ -23,6 +23,7 @@ public class TuitionServiceImpl implements TuitionService {
 	public EmployeeDAO ed = new EmployeeDAOImpl();
 	public TuitionDAO td = new TuitionDAOImpl();
 	public DepartmentDAO dd = new DepartmentDAOImpl();
+	public EmployeeService es = new EmployeeServiceImpl();
 	
 	@Override
 	public void createForm(UUID id, String issuer, String title, String description, String location, Double cost,
@@ -33,7 +34,18 @@ public class TuitionServiceImpl implements TuitionService {
 		if (startDate.isBefore(urgencyPeriod)) {
 			form.setUrgent(true);
 		}
+		Employee employee = es.viewEmployee(issuer);
+		employee.setPendingReimbursement(cost);
+		ed.updateEmployee(employee);
 		td.addTuitionForm(form);
+	}
+	
+	public void deleteForm(TuitionReimbursementForm form) {
+		Employee employee = es.viewEmployee(form.getIssuer());
+		Double currentPending = employee.getPendingReimbursement();
+		employee.setPendingReimbursement(currentPending - form.getCost());
+		ed.updateEmployee(employee);
+		td.deleteTuitionForm(form);
 	}
 
 	@Override
