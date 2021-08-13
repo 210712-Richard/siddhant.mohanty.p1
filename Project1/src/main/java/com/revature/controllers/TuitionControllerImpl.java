@@ -202,7 +202,7 @@ public class TuitionControllerImpl implements TuitionController {
 		TuitionReimbursementForm deleteForm = ts.getForm(loggedEmployee, id);
 		ns.notify(loggedEmployee, "You deleted the form with title: " + deleteForm.getTitle());
 		log.trace("Form deleted: " + deleteForm.getTitle() + " by " + deleteForm.getIssuer());
-		ctx.html(deleteForm.getTitle() + " form updated");
+		ctx.html(deleteForm.getTitle() + " form deleted");
 		ts.deleteForm(deleteForm);
 	}
 }

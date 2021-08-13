@@ -44,7 +44,8 @@ public class TuitionServiceImpl implements TuitionService {
 	public void deleteForm(TuitionReimbursementForm form) {
 		Employee employee = es.viewEmployee(form.getIssuer());
 		Double currentPending = employee.getPendingReimbursement();
-		employee.setPendingReimbursement(currentPending - form.getCost());
+		Double cost = form.getCost();
+		employee.setPendingReimbursement(currentPending - (cost*form.getEventType().getReimburseMultiplier()));
 		ed.updateEmployee(employee);
 		td.deleteTuitionForm(form);
 	}
@@ -98,15 +99,18 @@ public class TuitionServiceImpl implements TuitionService {
 			if (decliner.getIsDeptHead()) {
 				if (emp.getSupervisorName().equals(decliner.getUsername())) {
 					form.setDeclined(true);
+					form.setReasonDeclined(reason);
 					td.updateTuitionForm(form);
 				} else if (dd.getDepartmentByName(emp.getDept()).getDeptHeadUsername().equals(decliner.getUsername())) {
 					form.setDeclined(true);
+					form.setReasonDeclined(reason);
 					td.updateTuitionForm(form);
 				} else {
 					return;
 				}
 			} else if (emp.getSupervisorName().equals(decliner.getUsername())){
 				form.setDeclined(true);
+				form.setReasonDeclined(reason);
 				td.updateTuitionForm(form);
 			} else {
 				return;
@@ -114,24 +118,26 @@ public class TuitionServiceImpl implements TuitionService {
 			break;
 		case BENCO:
 			form.setDeclined(true);
+			form.setReasonDeclined(reason);
 			td.updateTuitionForm(form);
 			break;
 		}
 	}
 
 	@Override
-	public void provideGrade(String employee, UUID id, GradeType gradeType, String gradeValue, Boolean isPassing) {
-		TuitionReimbursementForm form = td.getTuitionForm(employee, id);
+	public void provideGrade(String employeeUsername, UUID id, GradeType gradeType, String gradeValue, Boolean isPassing) {
+		TuitionReimbursementForm form = td.getTuitionForm(employeeUsername, id);
+		Double cost = form.getCost();
 		form.setGradeType(gradeType);
 		form.setGrade(gradeValue);
 		form.setPassed(isPassing);
+		Employee employee = es.viewEmployee(employeeUsername);
+		Double currentPending = employee.getPendingReimbursement();
+		Double currentAwarded = employee.getAwardedReimbursement();
+		employee.setPendingReimbursement(currentPending - (cost*form.getEventType().getReimburseMultiplier()));
+		employee.setAwardedReimbursement(currentAwarded + (cost*form.getEventType().getReimburseMultiplier())); 
+		ed.updateEmployee(employee);
 		td.updateTuitionForm(form);
-		Employee issuer = es.viewEmployee(employee);
-		Double currentPending = issuer.getPendingReimbursement();
-		Double currentAwarded = issuer.getAwardedReimbursement();
-		issuer.setPendingReimbursement(currentPending - form.getCost() * form.getEventType().getReimburseMultiplier());
-		issuer.setAwardedReimbursement(currentAwarded + form.getCost() * form.getEventType().getReimburseMultiplier()); 
-		ed.updateEmployee(issuer);
 	}
 
 	@Override
@@ -144,12 +150,10 @@ public class TuitionServiceImpl implements TuitionService {
 		for (TuitionReimbursementForm form : td.getTuitionForms()) {
 			if (form.getSupervisorApproved().equals(false)) {
 				form.setSupervisorApproved(true);
-				td.updateTuitionForm(form);
-				return;
+				td.updateTuitionForm(form);	
 			} else if (form.getSupervisorApproved().equals(true) && form.getDeptHeadApproved().equals(false)) {
 				form.setDeptHeadApproved(true);
 				td.updateTuitionForm(form);
-				return;
 			}
 		}
 	}

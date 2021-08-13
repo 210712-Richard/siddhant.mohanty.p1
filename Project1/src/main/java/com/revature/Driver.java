@@ -34,7 +34,7 @@ public class Driver {
 		DataBaseCreator.createTables();
 		System.out.println("Tables created");
 		try {
-			Thread.sleep(50000); // wait 60 seconds
+			Thread.sleep(50000); // wait 70 seconds
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

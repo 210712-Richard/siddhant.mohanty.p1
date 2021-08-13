@@ -146,7 +146,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 
 	@Override
 	public void deleteTuitionForm(TuitionReimbursementForm form) {
-		String query = "DELETE * FROM form WHERE issuer=? AND id=?";
+		String query = "DELETE FROM form WHERE issuer=? AND id=?";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM).build();
 		BoundStatement bound = session.prepare(s).bind(form.getIssuer(), form.getId());
 		session.execute(bound);
