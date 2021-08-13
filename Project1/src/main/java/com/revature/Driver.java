@@ -18,9 +18,9 @@ import io.javalin.plugin.json.JavalinJackson;
 @Log
 public class Driver {
 	public static void main(String[] args) {
-		instantiateDatabase();
-		// doAutoApprovals();
-		// launchJavalin();
+		// instantiateDatabase();
+		doAutoApprovals();
+		launchJavalin();
 	}
 
 	public static void instantiateDatabase() {
@@ -71,6 +71,9 @@ public class Driver {
 		// check notifications
 		app.get("/employees/:username/notifications", ec::checkNotifications);
 		
+		// check remaining reimbursement funds
+		app.get("/employees/funds", ec::checkFunds);
+		
 		// look at all employees
 		app.get("/employees/view", ec::viewEmployees);
 
@@ -99,7 +102,7 @@ public class Driver {
 		app.get("/employees/forms/view", tc::viewMyForms);
 		
 		// provide a grade for a form
-		app.put("/employees/forms/:id/:type/:grade", tc::provideGrade);
+		app.put("/employees/forms/:id/:type/:grade/:isPassing", tc::provideGrade);
 		
 		// ask for more information in a form
 		app.put("/employees/administration/forms/:issuer/:id", tc::requestInformation);

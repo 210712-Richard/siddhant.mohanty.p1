@@ -35,7 +35,8 @@ public class TuitionServiceImpl implements TuitionService {
 			form.setUrgent(true);
 		}
 		Employee employee = es.viewEmployee(issuer);
-		employee.setPendingReimbursement(cost);
+		Double currentPending = employee.getPendingReimbursement();
+		employee.setPendingReimbursement(currentPending + cost);
 		ed.updateEmployee(employee);
 		td.addTuitionForm(form);
 	}
@@ -119,10 +120,18 @@ public class TuitionServiceImpl implements TuitionService {
 	}
 
 	@Override
-	public void provideGrade(String employee, UUID id, GradeType gradeType, String gradeValue) {
+	public void provideGrade(String employee, UUID id, GradeType gradeType, String gradeValue, Boolean isPassing) {
 		TuitionReimbursementForm form = td.getTuitionForm(employee, id);
 		form.setGradeType(gradeType);
 		form.setGrade(gradeValue);
+		form.setPassed(isPassing);
+		td.updateTuitionForm(form);
+		Employee issuer = es.viewEmployee(employee);
+		Double currentPending = issuer.getPendingReimbursement();
+		Double currentAwarded = issuer.getAwardedReimbursement();
+		issuer.setPendingReimbursement(currentPending - form.getCost());
+		issuer.setAwardedReimbursement(currentAwarded + form.getCost()); 
+		ed.updateEmployee(issuer);
 	}
 
 	@Override

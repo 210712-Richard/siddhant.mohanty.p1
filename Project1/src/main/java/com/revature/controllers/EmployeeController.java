@@ -14,6 +14,6 @@ public interface EmployeeController {
 	
 	void viewEmployees(Context ctx);
 	
-	void viewRemainingReimbursement(Context ctx);
+	void checkFunds(Context ctx);
 	
 }

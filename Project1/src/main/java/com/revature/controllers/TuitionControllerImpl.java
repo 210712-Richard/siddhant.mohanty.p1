@@ -28,7 +28,7 @@ import io.javalin.http.Context;
 @Log
 public class TuitionControllerImpl implements TuitionController {
 
-	private static final String[] ATTACHMENTTYPES = {".jpg", ".png", ".txt", ".doc", ".pdf"};
+	private static final String[] ATTACHMENTTYPES = { ".jpg", ".png", ".txt", ".doc", ".pdf" };
 	private static final S3Util S3 = S3Util.getInstance();
 
 	private Logger log = LogManager.getLogger(EmployeeServiceImpl.class);
@@ -48,8 +48,8 @@ public class TuitionControllerImpl implements TuitionController {
 		}
 		form.setIssuer(loggedEmployee.getUsername());
 		List<String> attachmentURIs = new ArrayList<String>();
-		ts.createForm(form.getId(), form.getIssuer(), form.getTitle(), form.getDescription(), form.getLocation(), form.getCost(),
-				form.getStartDate(), form.getGradeType(), form.getEventType(), attachmentURIs);
+		ts.createForm(form.getId(), form.getIssuer(), form.getTitle(), form.getDescription(), form.getLocation(),
+				form.getCost(), form.getStartDate(), form.getGradeType(), form.getEventType(), attachmentURIs);
 		ns.notify(loggedEmployee, "You created a form with title: " + form.getTitle());
 		log.trace("Form created: " + form.getTitle() + " by " + form.getIssuer());
 		ctx.html(form.getTitle() + " form created");
@@ -110,9 +110,17 @@ public class TuitionControllerImpl implements TuitionController {
 			return;
 		}
 		UUID id = UUID.fromString(ctx.pathParam("id"));
-		GradeType type = GradeType.valueOf(ctx.pathParam("type"));
-		String grade = ctx.pathParam("grade");
-		ts.provideGrade(loggedEmployee.getUsername(), id, type, grade);
+		TuitionReimbursementForm form = ts.getForm(loggedEmployee, id);
+		if (form.getBenCoApproved() && form.getDeptHeadApproved() && form.getSupervisorApproved()) {
+			GradeType type = GradeType.valueOf(ctx.pathParam("type"));
+			String grade = ctx.pathParam("grade");
+			Boolean isPassing = Boolean.valueOf(ctx.pathParam("isPassing"));
+			ts.provideGrade(loggedEmployee.getUsername(), id, type, grade, isPassing);
+		} else {
+			ctx.status(400);
+			ctx.html("This form has not been fully approved yet");
+			return;
+		}
 	}
 
 	@Override

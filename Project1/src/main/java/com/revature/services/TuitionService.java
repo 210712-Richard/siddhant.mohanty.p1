@@ -101,7 +101,7 @@ public interface TuitionService {
 	 * @param gradeValue Value of the grade
 	 */
 
-	void provideGrade(String employee, UUID id, GradeType gradeType, String gradeValue);
+	void provideGrade(String employee, UUID id, GradeType gradeType, String gradeValue, Boolean isPassing);
 
 	/**
 	 * Checks the db for forms that do not have either directSupervisorApproved or

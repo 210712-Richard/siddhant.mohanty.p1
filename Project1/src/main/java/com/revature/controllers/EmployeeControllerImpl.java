@@ -70,7 +70,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 	public void checkNotifications(Context ctx) {
 		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
 		String username = ctx.pathParam("username");
-		if(loggedEmployee == null || !loggedEmployee.getUsername().equals(username)) {
+		if (loggedEmployee == null || !loggedEmployee.getUsername().equals(username)) {
 			ctx.status(403);
 			return;
 		}
@@ -80,7 +80,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 			ctx.json("You've got no notifications!");
 		}
 	}
-	
+
 	public void viewEmployees(Context ctx) {
 		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
 		if (loggedEmployee.getType().equals(EmployeeType.REGEMPLOYEE)) {
@@ -92,8 +92,10 @@ public class EmployeeControllerImpl implements EmployeeController {
 	}
 
 	@Override
-	public void viewRemainingReimbursement(Context ctx) {
+	public void checkFunds(Context ctx) {
 		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
-		ctx.json(1000 - loggedEmployee.getPendingReimbursement() - loggedEmployee.getAwardedReimbursement());
+		ctx.html("Remaining funds: "
+				+ (1000 - loggedEmployee.getPendingReimbursement() - loggedEmployee.getAwardedReimbursement()));
+		ctx.json(loggedEmployee);
 	}
 }
