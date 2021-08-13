@@ -24,4 +24,6 @@ public interface TuitionController {
 	void requestInformation(Context ctx);
 	
 	void addAttachment(Context ctx);
+	
+	void downloadAttachment(Context ctx);
 }

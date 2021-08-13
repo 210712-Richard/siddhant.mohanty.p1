@@ -88,6 +88,9 @@ public class Driver {
 		
 		// add attachment to a form
 		app.put("/employees/addattachment/:issuer/:id", tc::addAttachment);
+		
+		// download attachment from a bucket
+		app.get("/employees/getattachment/:id/:index", tc::downloadAttachment);
 
 		// approve form
 		app.put("/employees/administration/approval/:formissuer/:id", tc::approveReimbursement);

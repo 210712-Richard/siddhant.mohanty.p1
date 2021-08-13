@@ -1,6 +1,6 @@
 package com.revature.controllers;
 
-import java.lang.reflect.Field;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -205,4 +205,21 @@ public class TuitionControllerImpl implements TuitionController {
 		ctx.html(deleteForm.getTitle() + " form deleted");
 		ts.deleteForm(deleteForm);
 	}
+
+	@Override
+	public void downloadAttachment(Context ctx) {
+		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		UUID id = UUID.fromString(ctx.pathParam("id"));
+		Integer index = Integer.parseInt(ctx.pathParam("index"));
+		if (loggedEmployee == null) {
+			ctx.status(403);
+			return;
+		}
+		TuitionReimbursementForm form = ts.getForm(loggedEmployee, id);
+		String key = form.getAttachmentURIs().get(index);
+		InputStream attachment = S3.getObject(key);
+		ctx.result(attachment);
+	}
+	
+	
 }
