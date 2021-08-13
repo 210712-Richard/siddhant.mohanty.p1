@@ -12,4 +12,6 @@ public interface EmployeeController {
 	
 	void checkNotifications(Context ctx);
 	
+	void viewEmployees(Context ctx);
+	
 }

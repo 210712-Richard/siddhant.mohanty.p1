@@ -1,6 +1,10 @@
 package com.revature.controllers;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +28,7 @@ import io.javalin.http.Context;
 @Log
 public class TuitionControllerImpl implements TuitionController {
 
+	private static final String[] ATTACHMENTTYPES = {".jpg", ".png", ".txt", ".doc", ".pdf"};
 	private static final S3Util S3 = S3Util.getInstance();
 
 	private Logger log = LogManager.getLogger(EmployeeServiceImpl.class);
@@ -37,30 +42,35 @@ public class TuitionControllerImpl implements TuitionController {
 	public void createForm(Context ctx) {
 		TuitionReimbursementForm form = ctx.bodyAsClass(TuitionReimbursementForm.class);
 		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
-		if (loggedEmployee == null || !loggedEmployee.getUsername().equals(form.getIssuer())) {
+		if (loggedEmployee == null) {
 			ctx.status(403);
 			return;
 		}
+		form.setIssuer(loggedEmployee.getUsername());
+		List<String> attachmentURIs = new ArrayList<String>();
 		ts.createForm(form.getIssuer(), form.getTitle(), form.getDescription(), form.getLocation(), form.getCost(),
-				form.getStartDate(), form.getGradeType(), form.getEventType(), form.getAttachmentURIs());
+				form.getStartDate(), form.getGradeType(), form.getEventType(), attachmentURIs);
 		ns.notify(loggedEmployee, "You created a form with title: " + form.getTitle());
 		log.trace("Form created: " + form.getTitle() + " by " + form.getIssuer());
 		ctx.html(form.getTitle() + " form created");
+		ctx.json(form);
 	}
 
 	@Override
 	public void updateForm(Context ctx) {
-		TuitionReimbursementForm form = ctx.bodyAsClass(TuitionReimbursementForm.class);
 		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
-		if (loggedEmployee == null || !loggedEmployee.getUsername().equals(form.getIssuer())) {
+		String issuer = ctx.pathParam("issuer");
+		UUID id = UUID.fromString(ctx.pathParam("id"));
+		if (loggedEmployee == null || !loggedEmployee.getUsername().equals(issuer)) {
 			ctx.status(403);
 			return;
 		}
-		ts.updateForm(form.getIssuer(), form.getTitle(), form.getDescription(), form.getLocation(), form.getCost(),
-				form.getStartDate(), form.getGradeType(), form.getEventType(), form.getAttachmentURIs());
-		ns.notify(loggedEmployee, "You updated the form with title: " + form.getTitle());
-		log.trace("Form updated: " + form.getTitle() + " by " + form.getIssuer());
-		ctx.html(form.getTitle() + " form updated");
+		TuitionReimbursementForm newForm = ctx.bodyAsClass(TuitionReimbursementForm.class);
+		ts.updateForm(newForm);
+		ns.notify(loggedEmployee, "You updated the form with title: " + newForm.getTitle());
+		log.trace("Form updated: " + newForm.getTitle() + " by " + newForm.getIssuer());
+		ctx.html(newForm.getTitle() + " form updated");
+		ctx.json(newForm);
 	}
 
 	@Override
@@ -151,9 +161,24 @@ public class TuitionControllerImpl implements TuitionController {
 	}
 
 	@Override
-	public void addFile(Context ctx) {
-		// TODO Auto-generated method stub
+	public void addAttachment(Context ctx) {
+		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		String attachmentType = ctx.header("attachmentType");
+		String issuer = ctx.pathParam("issuer");
+		UUID id = UUID.fromString(ctx.pathParam("id"));
+		if (loggedEmployee == null || !loggedEmployee.getUsername().equals(issuer)) {
+			ctx.status(403);
+			return;
+		}
+		if (!Stream.of(ATTACHMENTTYPES).anyMatch((type) -> type.equals(attachmentType))) {
+			log.warn("Bad attachment type supplied");
+			ctx.status(400);
+			ctx.html("Unsupported attachment type");
+		}
+		TuitionReimbursementForm form = ts.getForm(loggedEmployee, id);
+		String attachmentURI = id + "/attachments/" + form.getAttachmentURIs().size() + attachmentType;
+		S3.uploadToBucket(attachmentURI, ctx.bodyAsBytes());
+		form.getAttachmentURIs().add(attachmentURI);
 		
 	}
-
 }

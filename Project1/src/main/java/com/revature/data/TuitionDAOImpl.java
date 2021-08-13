@@ -84,7 +84,7 @@ public class TuitionDAOImpl implements TuitionDAO {
 				+ "location, cost, startdate, creationdate, creationtime, "
 				+ "gradetype, eventtype, attachmenturis, urgent, "
 				+ "supervisorapproved, deptheadapproved, bencoapproved, declined, "
-				+ "reasondeclined, grade, passed, awardedamount, awardedreason, finalcheck FROM form WHERE issuer=?";
+				+ "reasondeclined, grade, passed, awardedamount, awardedreason, finalcheck FROM form WHERE issuer=? ALLOW FILTERING";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		BoundStatement bound = session.prepare(s).bind(issuer);
 		ResultSet rs = session.execute(bound);
@@ -118,14 +118,11 @@ public class TuitionDAOImpl implements TuitionDAO {
 		});
 		return forms;
 	}
-	
+
 	@Override
 	public TuitionReimbursementForm getTuitionForm(String issuer, UUID id) {
 		List<TuitionReimbursementForm> forms = getTuitionFormsByEmployee(issuer);
-		TuitionReimbursementForm form = forms.stream()
-				.filter((f) -> f.getId().equals(id))
-				.findFirst()
-				.orElse(null);
+		TuitionReimbursementForm form = forms.stream().filter((f) -> f.getId().equals(id)).findFirst().orElse(null);
 		return form;
 	}
 
@@ -136,14 +133,14 @@ public class TuitionDAOImpl implements TuitionDAO {
 				+ "gradetype=?, eventtype=?, attachmenturis=?, urgent=?, "
 				+ "supervisorapproved=?, deptheadapproved=?, bencoapproved=?, "
 				+ "declined=?, reasondeclined=?, grade=?, passed=?, awardedamount=?, "
-				+ "awardedreason=?, finalcheck=? WHERE issuer=? AND id=?";
+				+ "awardedreason=?, finalcheck=? WHERE issuer=? AND id=? ALLOW FILTERING";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		BoundStatement bound = session.prepare(s).bind(form.getTitle(), form.getDescription(), form.getLocation(),
 				form.getCost(), form.getStartDate(), form.getCreationDate(), form.getCreationTime(),
-				form.getGradeType().toString(), form.getEventType().toString(), form.getAttachmentURIs(), form.getUrgent(),
-				form.getSupervisorApproved(), form.getDeptHeadApproved(), form.getBenCoApproved(), form.getDeclined(),
-				form.getReasonDeclined(), form.getGrade(), form.getPassed(), form.getAwardedAmount(),
-				form.getAwardedReason(), form.getFinalCheck(), form.getIssuer(), form.getId());
+				form.getGradeType().toString(), form.getEventType().toString(), form.getAttachmentURIs(),
+				form.getUrgent(), form.getSupervisorApproved(), form.getDeptHeadApproved(), form.getBenCoApproved(),
+				form.getDeclined(), form.getReasonDeclined(), form.getGrade(), form.getPassed(),
+				form.getAwardedAmount(), form.getAwardedReason(), form.getFinalCheck(), form.getIssuer(), form.getId());
 		session.execute(bound);
 	}
 }

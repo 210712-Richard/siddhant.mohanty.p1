@@ -70,12 +70,18 @@ public class Driver {
 
 		// check notifications
 		app.get("/employees/:username/notifications", ec::checkNotifications);
+		
+		// look at all employees
+		app.get("/employees/view", ec::viewEmployees);
 
 		// create form
 		app.post("/employees/newform", tc::createForm);
 
 		// update form
 		app.put("/employees/updateform", tc::updateForm);
+		
+		// add attachment to a form
+		app.put("/employees/addattachment/:issuer/:id", tc::addAttachment);
 
 		// approve form
 		app.put("employees/administration/approval/:formissuer/:id", tc::approveReimbursement);
@@ -102,7 +108,9 @@ public class Driver {
 		
 			while(true) {
 				try {
-					Thread.sleep(30000);
+					// Wait 60 seconds to perform each stage of the check, 2 mins total for a 
+					// form to fully auto approve itself (besides benco)
+					Thread.sleep(60000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -33,20 +33,10 @@ public interface TuitionService {
 	/**
 	 * Updates a tuition reimbursement form
 	 * 
-	 * @param issuer      The username of the employee whose form is being updated
-	 * @param title       The title of the form
-	 * @param description The description of the event that reimbursement is being
-	 *                    requested for
-	 * @param location    The location of the event
-	 * @param cost        The cost of the event
-	 * @param startDate   The starting date of the event
-	 * @param gradeType   The type of grade that the event will be using
-	 * @param eventType   The type of event
-	 * @param attachments Any attachments
+	 * @param form The new form we want to put into the system
 	 */
 
-	void updateForm(String issuer, String title, String description, String location, Double cost, LocalDate startDate,
-			GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs);
+	void updateForm(TuitionReimbursementForm form);
 
 	/**
 	 * Gets a tuition reimbursement form

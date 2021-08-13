@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.revature.beans.Employee;
+import com.revature.beans.EmployeeType;
 import com.revature.factory.BeanFactory;
 import com.revature.factory.Log;
 import com.revature.services.EmployeeService;
@@ -78,5 +79,15 @@ public class EmployeeControllerImpl implements EmployeeController {
 		} catch (IllegalArgumentException i) {
 			ctx.json("You've got no notifications!");
 		}
+	}
+	
+	public void viewEmployees(Context ctx) {
+		Employee loggedEmployee = ctx.sessionAttribute("loggedEmployee");
+		if (loggedEmployee.getType().equals(EmployeeType.REGEMPLOYEE)) {
+			ctx.status(403);
+			log.warn("Unauthorized attempt to view all employees");
+			return;
+		}
+		ctx.json(es.viewEmployees());
 	}
 }

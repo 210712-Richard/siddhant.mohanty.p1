@@ -21,5 +21,5 @@ public interface TuitionController {
 	
 	void requestInformation(Context ctx);
 	
-	void addFile(Context ctx);
+	void addAttachment(Context ctx);
 }

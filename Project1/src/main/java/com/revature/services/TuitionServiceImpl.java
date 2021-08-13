@@ -107,10 +107,7 @@ public class TuitionServiceImpl implements TuitionService {
 	}
 
 	@Override
-	public void updateForm(String issuer, String title, String description, String location, Double cost,
-			LocalDate startDate, GradeType gradeType, ReimbursementEventType eventType, List<String> attachmentURIs) {
-		TuitionReimbursementForm form = new TuitionReimbursementForm(issuer, title, description, location, cost,
-				startDate, gradeType, eventType, attachmentURIs);
+	public void updateForm(TuitionReimbursementForm form) {
 		td.updateTuitionForm(form);
 	}
 

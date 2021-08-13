@@ -37,7 +37,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public List<Employee> getEmployees() {
 		String query = "SELECT username, password, email, firstname, lastname, "
 				+ "supervisorname, dept, isdepthead, pendingreimbursement, "
-				+ "awardedreimbursement, type, forms, reviewforms from employee;";
+				+ "awardedreimbursement, type, forms, reviewforms FROM employee;";
 		// This query will not be particularly efficient as it needs to query every
 		// partition.
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
@@ -47,6 +47,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			Employee emp = new Employee();
 			emp.setUsername(row.getString("username"));
 			emp.setPassword(row.getString("password"));
+			emp.setEmail(row.getString("email"));
 			emp.setFirstName(row.getString("firstname"));
 			emp.setLastName(row.getString("lastname"));
 			emp.setSupervisorName(row.getString("supervisorname"));
@@ -66,7 +67,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public Employee getEmployeeByName(String username, String password) {
 		String query = "SELECT username, password, email, firstname, lastname, "
 				+ "supervisorname, dept, isdepthead, pendingreimbursement, "
-				+ "awardedreimbursement, type, forms, reviewforms FROM employee " + "WHERE username=? AND password=?";
+				+ "awardedreimbursement, type, forms, reviewforms FROM employee "
+				+ "WHERE username=? AND password=? ALLOW FILTERING";
 		SimpleStatement s = new SimpleStatementBuilder(query).build();
 		BoundStatement bound = session.prepare(s).bind(username, password);
 		// ResultSet is the values returned by my query.
@@ -78,11 +80,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		Employee emp = new Employee();
 		emp.setUsername(row.getString("username"));
 		emp.setPassword(row.getString("password"));
+		emp.setEmail(row.getString("email"));
 		emp.setFirstName(row.getString("firstname"));
 		emp.setLastName(row.getString("lastname"));
 		emp.setSupervisorName(row.getString("supervisorname"));
 		emp.setDept(row.getString("dept"));
-		emp.setIsDeptHead(row.getBoolean("isdepthead"));;
+		emp.setIsDeptHead(row.getBoolean("isdepthead"));
+		;
 		emp.setPendingReimbursement(row.getDouble("pendingreimbursement"));
 		emp.setAwardedReimbursement(row.getDouble("awardedreimbursement"));
 		emp.setType(EmployeeType.valueOf(row.getString("type")));
@@ -102,7 +106,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		return typedEmployees;
 	}
-	
+
 	public List<Employee> getEmployeeByDepartment(String department) {
 		List<Employee> departmentEmployees = new ArrayList<Employee>();
 		List<Employee> employees = getEmployees();
@@ -118,12 +122,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public void updateEmployee(Employee e) {
 		String query = "UPDATE employee SET email=?, firstname=?, lastname=?, "
 				+ "supervisorname=?, dept=?, isdepthead=?, pendingreimbursement=?, "
-				+ "awardedreimbursement=?, type=?, forms=?, reviewforms=? " + "WHERE username=? AND password=?;";
+				+ "awardedreimbursement=?, type=?, forms=?, reviewforms=? "
+				+ "WHERE username=? AND password=? ALLOW FILTERING;";
 		SimpleStatement s = new SimpleStatementBuilder(query).setConsistencyLevel(DefaultConsistencyLevel.LOCAL_QUORUM)
 				.build();
 		BoundStatement bound = session.prepare(s).bind(e.getEmail(), e.getFirstName(), e.getLastName(),
-				e.getSupervisorName(), e.getDept(), e.getIsDeptHead(), e.getPendingReimbursement(), e.getAwardedReimbursement(),
-				e.getType(), e.getForms(), e.getReviewForms(), e.getUsername(), e.getPassword());
+				e.getSupervisorName(), e.getDept(), e.getIsDeptHead(), e.getPendingReimbursement(),
+				e.getAwardedReimbursement(), e.getType(), e.getForms(), e.getReviewForms(), e.getUsername(),
+				e.getPassword());
 		session.execute(bound);
 	}
 }
